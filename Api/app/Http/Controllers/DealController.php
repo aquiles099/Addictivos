@@ -7,7 +7,10 @@ use App\Models\ImagesDeal;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Helpers\HStatusHttp;
-
+use App\Helpers\HPath;
+use Image;
+use File;
+use Storage;
 class DealController extends Controller
 {
     /**
@@ -44,16 +47,15 @@ class DealController extends Controller
                 ]);            
             }   
         }
-
-        if( $validator_result = $this->validateData( $request, Deal::rules(), trans('validation') )) {
-            return $validator_result;  
-        }
+        
+        // if( $validator_result = $this->validateData( $request, Deal::rules(), trans('validation') )) {
+            // return $validator_result;  
+        // }
 
         $deal_data = [
             'short_title' => $request->short_title,
             'long_title' => $request->long_title,
-      //     'images_deals_id' => $request->main_image->id ? $request->main_image->id : null,
-            'images_deals_id' => null,
+            // 'images_deals_id' => $request->main_image ? $request->main_image : null,
             'effective_date' => $request->effective_date,
             'deal_total_limit' => 0,
             'user_purchase_limit' => 0,
@@ -78,18 +80,22 @@ class DealController extends Controller
             'company_id' => $request->company_id
         ];
         $images = [];
-        array_push($images, $request->main_image);
+        if($request->main_image){
+            array_push($images, $request->main_image);
+        }
         if($request->images) {
-            array_push($images,$request->images);
+            foreach ($request->images as $key => $image) {
+                array_push($images,$image);
+            }
         }
         
         if(!$deal_id){
             $deal = $this->create($deal_data, $images);
         } else {
-            $deal = $this->update($deal, $deal_data);
+            $deal = $this->update($deal, $deal_data, $images);
         }
 
-        $deal->category = Category::getCategoryName($deal->category_id);
+        // $deal->category = Category::getCategoryName($deal->category_id);
 
         return response()->json([
             'code' => HStatusHttp::OK,
@@ -108,12 +114,24 @@ class DealController extends Controller
     public function create($deal_data, $images)
     {
         $deal = Deal::create($deal_data);
-        // $images_deal = ImagesDeal::saveImagesDeal($images, $deal->id);
-        // if(!$deal->images_deals_id){
-        //     $deal->images_deals_id = $images_deal[0]->id;
-        //     $deal->save();
-        // }
-        // $deal->images = $images_deal;
+        $full_path = HPath::AVATAR_DEAL . '/'. $deal->id.'/';
+        if(!is_dir($full_path)) {
+            mkdir($full_path, 0755, true);
+        }
+        $images_deal=[];
+        foreach($images as $key => $image) {
+            $filename = uniqid().'-'.time().'.'. $image->getClientOriginalExtension();            
+            Image::make($image)->save(public_path($full_path . $filename));
+            $image_deal=ImagesDeal::create([
+                'avatar_file_name' => public_path($full_path . $filename),
+                'deal_id' => $deal->id
+            ]);
+            array_push($images_deal,$image_deal);
+        }
+        if(!$deal->images_deals_id&&count($images_deal)>0) {
+            $deal->images_deals_id = $images_deal[0]->id;
+            $deal->update();
+        }
         return $deal;
     }
 
@@ -152,12 +170,36 @@ class DealController extends Controller
      */
     public function update($deal, $deal_data, $images)
     {
-        $deal->fill($deal_data)->save();
-        $images_deal = ImagesDeal::saveImagesDeal($images, $deal->id);
-        if(!$deal->images_deals_id) {
-            $deal->images_deals_id = $images_deal[0]->id;
-            $deal->save();
+        
+        $deal->fill($deal_data)->update();
+        $full_path = "images/".HPath::AVATAR_DEAL . '/'. $deal->id.'/';
+        $imagesDeal=ImagesDeal::where("deal_id",$deal->id)->get();
+        //se eliminan las que ya estaban registradas con el $deal->id
+        
+        $images_deal_ids=[];
+        foreach ($imagesDeal as $key => $imageDeal) {
+            File::Delete($imageDeal->avatar_file_name);// se elimina del disco
+            array_push($images_deal_ids,$imageDeal->id);
+            // $imageDeal->delete();
         }
+        if(!is_dir($full_path)) {
+            mkdir($full_path, 0755, true);
+        }
+        $images_deal=[];
+        foreach($images as $key => $image) {
+            $filename = uniqid().'-'.time().'.'. $image->getClientOriginalExtension();            
+            Image::make($image)->save(public_path($full_path . $filename));
+            $image_deal=ImagesDeal::create([
+                'avatar_file_name' => public_path($full_path . $filename),
+                'deal_id' => $deal->id
+            ]);
+            array_push($images_deal,$image_deal);
+        }
+        if(!$deal->images_deals_id&&count($images_deal)>0) {
+            $deal->images_deals_id = $images_deal[0]->id;
+            $deal->update();
+        }
+        
         return $deal;
     }
 
