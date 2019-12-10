@@ -1,0 +1,105 @@
+<div class="label">
+  <a [routerLink]="[ '/',route  ]">
+    <h2>{{ label }}</h2>
+  </a>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-between center" fxShow="true" fxHide.xs="true" fxShow.xs="false" fxHide.md="false"
+  fxShow.sm="false">
+  <div class="banners-container container-oferta" fxLayoutAlign="space-around start">
+    <div *ngFor="let deal of deals" fxLayout="row" fxLayout.gt-sm="row" >
+      <div>
+        <mat-card class="oferta mt-1" fxLayout="column">
+          <a [routerLink]="['/',route, deal.id, slugify(deal.short_title)]" class="img-container">
+            <img data-src="assets/images/banners/Banner-{{ deal.id }}.jpg" class="img-oferta" />
+          </a>
+
+          <mat-card-content class="descripcion" fxLayout="column" fxLayoutAlign="center center">
+            <h3>{{ deal.short_title }}</h3>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100 mt-1">
+              <mat-card-subtitle fxLayoutAlign="start center" class="m-0">Categoría</mat-card-subtitle>
+              <!--RATING DEL PRODUCTO-->
+              <app-rating [ratingsCount]="4" [ratingsValue]="350" [direction]="'column'"></app-rating>
+            </div>
+          </mat-card-content>
+
+          <div class="descuento w-100" fxLayout="row" fxLayoutAlign="space-between center">
+            <div *ngIf="type == 1" fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+              <!-- <p class="price-text">Precio: </p>-->
+              <p class="new-price fw-600">${{ deal.discount }}</p>
+              <p class="old-price text-muted">${{ deal.option_pricings[0].original }}</p>
+            </div>
+
+            <div class="text" fxLayoutAlign="center">
+              <p selected="true"><span class="fw-700">{{ deal.discount }}%</span>OFF</p>
+            </div>
+          </div>
+
+      <!--PRECIO VIEJO/NUEVO DEL PRODUCTO
+
+          <div fxLayout="row" fxLayoutAlign="space-between center" class="prices" >
+            <p class="price-text">Precio: </p>
+            <p class="new-price fw-600">${{ deal[0].option_price[0].unit_price_amount | number : '1.2-2' }}</p>
+            <p class="old-price text-muted">${{ deal[0].option_price[0].original | number : '1.2-2' }}</p>
+          </div>
+      -->
+          <div fxLayout="row" fxLayoutAlign="center space-between">
+            <a [routerLink]="['/',route, deal.id, slugify(deal.short_title)]" mat-raised-button color="primary" class="mt-1 ver-oferta fw-700">Ver
+              {{  button }}</a>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div fxHide="true" fxShow.xs="true" fxShow.sm="true" fxHide.md="true" fxHide.lg="true">
+  <div class="swiper-container" [swiper]="config">
+    <div class="swiper-wrapper h-100">
+      <div *ngFor="let deal of deals" class="swiper-slide">
+        <div class="banners-container container-oferta" >
+            <div>
+              <div>
+                <mat-card class="oferta mt-1" fxLayout="column">
+                  <a [routerLink]="['/',route, deal.id, slugify(deal.short_title)]" class="img-container">
+                    <img data-src="assets/images/banners/Banner-{{ deal.id }}.jpg" class="img-oferta" />
+                  </a>
+        
+                  <mat-card-content class="descripcion" fxLayout="column" fxLayoutAlign="center center">
+                    <h3>{{ deal.short_title }}</h3>
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+                      <mat-card-subtitle fxLayoutAlign="start center" class="m-0">Categoría</mat-card-subtitle>
+                      <!--RATING DEL PRODUCTO-->
+                      <app-rating [ratingsCount]="4" [ratingsValue]="350" [direction]="'column'"></app-rating>
+                    </div>
+                  </mat-card-content>
+        
+                  <div class="descuento w-100" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div *ngIf="type == 1" fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+                      <p class="new-price fw-600">${{ deal.discount }}</p>
+                      <p class="old-price text-muted">${{ deal.option_pricings[0].original }}</p>
+                    </div>
+        
+                    <div class="text" fxLayoutAlign="center">
+                      <p selected="true"><span class="fw-700">{{ deal.discount }}%</span>OFF</p>
+                    </div>
+                  </div>
+        
+                  <div fxLayout="row" fxLayoutAlign="center space-between">
+                    <a [routerLink]="['/',route, deal.id, slugify(deal.short_title)]" mat-raised-button color="primary" class="mt-1 ver-oferta fw-700">Ver
+                      {{  button }}</a>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <button mat-mini-fab class="swiper-button-prev swipe-arrow">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <button mat-mini-fab class="swiper-button-next swipe-arrow">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+</div>

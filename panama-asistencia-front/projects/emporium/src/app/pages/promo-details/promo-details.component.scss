@@ -1,0 +1,231 @@
+.filter-sidenav{
+    width: 200px;
+    border: 0 !important;
+    .mat-expansion-panel-header-title {
+        text-transform: uppercase;
+    }
+}
+.filter-row{
+    background: #fff;
+    padding: 8px 12px;
+}
+.all-products{
+    min-height: 400px;
+    padding: 2px;
+    overflow: hidden;
+    &.p-left{
+        padding-left: 16px;
+    }
+}
+
+mat-card-content {
+    h3 {
+        font-size: 1.17em;
+        line-height: 1.2;
+        font-family: Roboto, sans-serif;
+        font-weight: bold;
+    }
+}
+.products-wrapper{
+    margin: 8px 0px;
+    .col{
+        padding: 8px;
+    }
+}
+
+.categories-wrapper{
+    position: relative;
+    max-height: 300px;
+}
+
+.filter-buttons{
+    button{
+        min-width: 36px;
+        margin: 0 6px 10px 0;
+        padding: 0;
+    }
+}
+
+.filter-price{
+    .mat-slider-horizontal{
+        min-width: 110px;
+    }
+}
+
+.filter-brands{
+    button{
+        width: 66px;
+        height: 44px;
+        min-width: 66px;
+        margin: 0 6px 10px 0;
+        padding: 0px;
+        overflow: hidden;
+        img{
+            width: 66px;
+            height: 44px;
+        }
+    }
+}
+
+.container-oferta{
+    flex-wrap: wrap;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    .img-container{
+        align-self: center;
+        position: relative;
+        max-height: 45%;
+        max-width: 100%;
+        .img-oferta{
+           // height: 80%;
+            width: 100%;
+            margin: auto;
+        }
+    }
+    
+    .oferta{
+        height: 350px;
+        max-width: 240px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px !important;
+        margin-right: 2.5px;
+
+        .ver-oferta{
+            color: #fff;
+            margin-top: auto !important;
+            padding: 0px 20px;
+            line-height: 25px; 
+        }
+
+        .descripcion{
+            margin-bottom: 5px !important;
+            font-size: small;
+        }
+    }
+
+    .prices{
+        margin: 5px 0;
+        align-self: center;
+        .old-price{
+            text-decoration: line-through;
+            font-size: 16px;
+        }
+        .new-price{
+            color: #d32f2e;
+            font-size: 26px; //13px
+            font-weight: 500;
+            padding: 0px 2px;
+        }
+        .price-text{
+            font-weight: bold;
+            text-transform: uppercase;
+            padding-right: 5px;
+        }
+    }
+
+    .descuento{
+        justify-content: space-between;
+        align-items: center;
+        .text{
+            color: #6f6c6c; // #000000;
+            font-weight: 500;
+            font-style: oblique;
+            font-size: 26px; 
+        } 
+    }
+}
+
+.container-oferta-col{
+    flex-wrap: wrap;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    .img-container{
+        align-self: center;
+        position: relative;
+        //max-height: 45%;
+        max-width: 100%;
+
+        .img-oferta{
+            height: 80%;
+            width: 100%;
+            margin: auto;
+        }
+    }
+    
+    .oferta{
+        //height: 350px;
+        //max-width: 240px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px !important;
+        margin-right: 2.5px;
+
+        .ver-oferta{
+            color: #fff;
+            margin-top: auto !important;
+            padding: 0px 20px;
+            line-height: 25px; 
+        }
+
+        .descripcion{
+            margin-bottom: 5px !important;
+            font-size: small;
+        }
+    }
+
+    .prices{
+        margin: 5px 0;
+        align-self: center;
+        .old-price{
+            text-decoration: line-through;
+            font-size: 16px;
+        }
+        .new-price{
+            color: #d32f2e;
+            font-size: 26px; //13px
+            font-weight: 500;
+            padding: 0px 2px;
+        }
+        .price-text{
+            font-weight: bold;
+            text-transform: uppercase;
+            padding-right: 5px;
+        }
+    }
+
+    .descuento{
+        justify-content: space-between;
+        align-items: center;
+        .text{
+            color: #6f6c6c; // #000000;
+            font-weight: 500;
+            font-style: oblique;
+            font-size: 26px; 
+        } 
+    }
+
+    .oferta-col{
+        padding-left: 10px;
+    }
+}

@@ -1,0 +1,31 @@
+.container {
+   // background: linear-gradient(to bottom right, #b1aaaa, #ffffff, #ad5453) !important;
+   //display: initial;
+   .logoC {
+       display: flex;
+        align-content: center !important;
+        align-items: center !important;
+        justify-content: center !important;
+        justify-items: center !important;
+        padding-bottom: 20px;
+   }
+    .logo {
+        width: 50%;
+    }
+    .title {
+        color: #fd6600;
+    }
+    .text-link {
+        color: #000000;
+        font-weight: 400;
+    }
+    .text-link:hover {
+        color: #fd6600;
+    }
+
+    .nb-theme-default [nbButton].appearance-filled.status-primary {
+        background-color: #fd6600;
+        border-color: #fd6600;
+        color: #ffffff;
+    }
+}

@@ -1,0 +1,252 @@
+<h1 id="title" class="title">Registro</h1>
+
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+    <p class="alert-title"><b>¡Lo sentimos!</b></p>
+    <ul class="alert-message-list">
+        <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+    </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+    <p class="alert-title"><b>¡Felicidades!</b></p>
+    <ul class="alert-message-list">
+        <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+    </ul>
+</nb-alert>
+
+<form (ngSubmit)="register()" #form="ngForm" aria-labelledby="title">
+    <div fxLayout="column" class="flex" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center">
+            <div class="form-control-group">
+                <label class="label" for="input-name">Nombre:</label>
+                <input nbInput [(ngModel)]="user.name" #name="ngModel" id="input-name" name="name"
+                    placeholder="Nombre" autofocus fullWidth fieldSize="large" [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.name.required')" [minlength]="getConfigValue('forms.validation.name.minLength')"
+                    [maxlength]="getConfigValue('forms.validation.name.maxLength')" [attr.aria-invalid]="name.invalid && name.touched ? true : null">
+                <ng-container *ngIf="name.invalid && name.touched">
+                    <p class="caption status-danger" *ngIf="name.errors?.required">
+                        Nombre es requerido.
+                    </p>
+                    <p class="caption status-danger" *ngIf="name.errors?.minlength || name.errors?.maxlength">
+                        El nombre debe contener
+                        de {{getConfigValue('forms.validation.name.minLength')}}
+                        a {{getConfigValue('forms.validation.name.maxLength')}}
+                        caracteres
+                    </p>
+                </ng-container>
+            </div>
+            <div class="form-control-group">
+                <label class="label" for="input-last-name">Apellido:</label>
+                <input nbInput [(ngModel)]="user.last_name" #lastName="ngModel" id="input-lastName" name="lastName"
+                    placeholder="Apellido" autofocus fullWidth fieldSize="large" [status]="lastName.dirty ? (lastName.invalid  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.lastName.required')" [minlength]="getConfigValue('forms.validation.lastName.minLength')"
+                    [maxlength]="getConfigValue('forms.validation.lastName.maxLength')" [attr.aria-invalid]="lastName.invalid && lastName.touched ? true : null">
+                <ng-container *ngIf="lastName.invalid && lastName.touched">
+                    <p class="caption status-danger" *ngIf="lastName.errors?.required">
+                        Apellido es requerido.
+                    </p>
+                    <p class="caption status-danger" *ngIf="lastName.errors?.minlength || lastName.errors?.maxlength">
+                        El apellido debe contener
+                        de {{getConfigValue('forms.validation.lastName.minLength')}}
+                        a {{getConfigValue('forms.validation.lastName.maxLength')}}
+                        caracteres
+                    </p>
+                </ng-container>
+            </div>
+
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column">
+            <div class="form-control-group">
+                <label class="label" for="input-dni">Cédula de Identidad:</label>
+                <input nbInput [(ngModel)]="user.dni" #dni="ngModel" id="input-dni" name="dni"
+                    placeholder="Cédula de Identidad" autofocus fullWidth fieldSize="large" [status]="dni.dirty ? (dni.invalid  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.dni.required')" [minlength]="getConfigValue('forms.validation.dni.minLength')"
+                    [maxlength]="getConfigValue('forms.validation.dni.maxLength')" [attr.aria-invalid]="dni.invalid && dni.touched ? true : null">
+                <ng-container *ngIf="dni.invalid && dni.touched">
+                    <p class="caption status-danger" *ngIf="dni.errors?.required">
+                        Cédula de Identidad es requerida.
+                    </p>
+                <!--
+                    <p class="caption status-danger" *ngIf="dni.errors?.minlength || dni.errors?.maxlength">
+                        Full name should contains
+                        from {{getConfigValue('forms.validation.dni.minLength')}}
+                        to {{getConfigValue('forms.validation.dni.maxLength')}}
+                        characters
+                    </p>
+                -->
+                </ng-container>
+            </div>
+            <div class="form-control-group">
+                <label class="label" for="input-name">Nro de Póliza:</label>
+                <input nbInput [(ngModel)]="user.policy" #policy="ngModel" id="input-policy" name="policy"
+                    placeholder="Nro de Póliza" autofocus fullWidth fieldSize="large" [status]="policy.dirty ? (policy.invalid  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.policy.required')" [minlength]="getConfigValue('forms.validation.policy.minLength')"
+                    [maxlength]="getConfigValue('forms.validation.policy.maxLength')" [attr.aria-invalid]="policy.invalid && policy.touched ? true : null">
+                <ng-container *ngIf="policy.invalid && policy.touched">
+                    <p class="caption status-danger" *ngIf="policy.errors?.required">
+                        Nro de Póliza es requerido.
+                    </p>
+                    <!--
+                    <p class="caption status-danger" *ngIf="policy.errors?.minlength || policy.errors?.maxlength">
+                        Full name should contains
+                        from {{getConfigValue('forms.validation.policy.minLength')}}
+                        to {{getConfigValue('forms.validation.policy.maxLength')}}
+                        characters
+                    </p>
+                    -->
+                </ng-container>
+            </div>
+
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column">
+            <div class="form-control-group">
+                <label class="label" for="input-name">Nombre de usuario:</label>
+                <input nbInput [(ngModel)]="user.username" #username="ngModel" id="input-username" name="username"
+                    placeholder="Nombre de usuario" autofocus fullWidth fieldSize="large" [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.username.required')" [minlength]="getConfigValue('forms.validation.username.minLength')"
+                    [maxlength]="getConfigValue('forms.validation.username.maxLength')" [attr.aria-invalid]="username.invalid && username.touched ? true : null">
+                <ng-container *ngIf="username.invalid && username.touched">
+                    <p class="caption status-danger" *ngIf="username.errors?.required">
+                        Nombre de usuario es requerido.
+                    </p>
+                    <p class="caption status-danger" *ngIf="username.errors?.minlength || username.errors?.maxlength">
+                        El nombre de usuario debe contener
+                        de {{getConfigValue('forms.validation.username.minLength')}}
+                        a {{getConfigValue('forms.validation.username.maxLength')}}
+                        caracteres
+                    </p>
+                </ng-container>
+            </div>
+            <div class="form-control-group">
+                <label class="label" for="input-email">Correo Electrónico:</label>
+                <input nbInput [(ngModel)]="user.email" #email="ngModel" id="input-email" name="email" pattern=".+@.+..+"
+                    placeholder="Correo Electrónico" fullWidth fieldSize="large" [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.email.required')" [attr.aria-invalid]="email.invalid && email.touched ? true : null">
+                <ng-container *ngIf="email.invalid && email.touched">
+                    <p class="caption status-danger" *ngIf="email.errors?.required">
+                        Correo es requerido.
+                    </p>
+                    <p class="caption status-danger" *ngIf="email.errors?.pattern">
+                        Utilice una cuenta de correo real.
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column">
+            <div class="form-control-group">
+                <label class="label" for="input-name">Teléfono:</label>
+                <input nbInput [(ngModel)]="user.phone" #phone="ngModel" id="input-phone" name="phone"
+                    placeholder="Teléfono" autofocus fullWidth fieldSize="large" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.phone.required')" [minlength]="getConfigValue('forms.validation.phone.minLength')"
+                    [maxlength]="getConfigValue('forms.validation.phone.maxLength')" 
+                    [attr.aria-invalid]="phone.invalid && phone.touched ? true : null">
+                <ng-container *ngIf="phone.invalid && phone.touched">
+                    <p class="caption status-danger" *ngIf="phone.errors?.required">
+                        Teléfono es requerido.
+                    </p>
+                    <!--
+                    <p class="caption status-danger" *ngIf="phone.errors?.minlength || phone.errors?.maxlength">
+                        Full name should contains
+                        from {{getConfigValue('forms.validation.phone.minLength')}}
+                        to {{getConfigValue('forms.validation.phone.maxLength')}}
+                        characters
+                    </p>
+                    -->
+                </ng-container>
+            </div>
+            <div class="form-control-group">
+                <label class="label" for="input-name">Dirección:</label>
+                <textarea nbInput [(ngModel)]="user.address" #address="ngModel" id="input-address" name="address"
+                    placeholder="Dirección" autofocus fullWidth fieldSize="large" [status]="address.dirty ? (address.invalid  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.address.required')" [minlength]="getConfigValue('forms.validation.address.minLength')"
+                    [maxlength]="getConfigValue('forms.validation.address.maxLength')" fieldSize="large"
+                    [attr.aria-invalid]="address.invalid && address.touched ? true : null"></textarea>
+                <ng-container *ngIf="address.invalid && address.touched">
+                    <p class="caption status-danger" *ngIf="address.errors?.required">
+                        Dirección es requerida.
+                    </p>
+                    <p class="caption status-danger" *ngIf="address.errors?.minlength || address.errors?.maxlength">
+                        Dirección debe contener mínimo 
+                        {{getConfigValue('forms.validation.address.minLength')}}
+                        caracteres
+                    </p>
+                </ng-container>
+            </div>
+
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column">
+            <div class="form-control-group">
+                <label class="label" for="input-password">Contraseña:</label>
+                <input nbInput [(ngModel)]="user.password" #password="ngModel" type="password" id="input-password" name="password"
+                    placeholder="Contraseña" fullWidth fieldSize="large" [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.password.required')" [minlength]="getConfigValue('forms.validation.password.minLength')"
+                    [maxlength]="getConfigValue('forms.validation.password.maxLength')" [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+                <ng-container *ngIf="password.invalid && password.touched">
+                    <p class="caption status-danger" *ngIf="password.errors?.required">
+                        Contraseña es requerida.
+                    </p>
+                    <p class="caption status-danger" *ngIf="password.errors?.minlength || password.errors?.maxlength">
+                        La contraseña debe contener 
+                        de {{ getConfigValue('forms.validation.password.minLength') }}
+                        a {{ getConfigValue('forms.validation.password.maxLength') }}
+                        caracteres
+                    </p>
+                </ng-container>
+            </div>
+
+            <div class="form-control-group">
+                <label class="label" for="input-re-password">Repetir Contraseña:</label>
+                <input nbInput [(ngModel)]="user.confirmPassword" #rePass="ngModel" type="password" id="input-re-password"
+                    name="rePass" placeholder="Confirmar Contraseña" fullWidth fieldSize="large" [status]="rePass.dirty ? (rePass.invalid || password.value != rePass.value  ? 'danger' : 'success') : ''"
+                    [required]="getConfigValue('forms.validation.password.required')" [attr.aria-invalid]="rePass.invalid && rePass.touched ? true : null">
+                <ng-container *ngIf="rePass.invalid && rePass.touched">
+                    <p class="caption status-danger" *ngIf="rePass.errors?.required">
+                        Se requiere confirmación de la contraseña.
+                    </p>
+                    <p class="caption status-danger" *ngIf="password.value != rePass.value && !rePass.errors?.required">
+                        No coincide con la contraseña introducida.
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-control-group accept-group" *ngIf="getConfigValue('forms.register.terms')">
+        <nb-checkbox name="terms" [(ngModel)]="user.terms" [required]="getConfigValue('forms.register.terms')">
+            Estoy de acuerdo con los  <a href="#" target="_blank"><strong>Términos y Condiciones</strong></a>
+        </nb-checkbox>
+    </div>
+
+    <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
+        Registrar
+    </button>
+</form>
+<!--
+<section *ngIf="socialLinks && socialLinks.length > 0" class="links" aria-label="Social sign in">
+  or enter with:
+  <div class="socials">
+    <ng-container *ngFor="let socialLink of socialLinks">
+      <a *ngIf="socialLink.link"
+         [routerLink]="socialLink.link"
+         [attr.target]="socialLink.target"
+         [attr.class]="socialLink.icon"
+         [class.with-icon]="socialLink.icon">
+        <nb-icon *ngIf="socialLink.icon; else title" [icon]="socialLink.icon"></nb-icon>
+        <ng-template #title>{{ socialLink.title }}</ng-template>
+      </a>
+      <a *ngIf="socialLink.url"
+         [attr.href]="socialLink.url"
+         [attr.target]="socialLink.target"
+         [attr.class]="socialLink.icon"
+         [class.with-icon]="socialLink.icon">
+        <nb-icon *ngIf="socialLink.icon; else title" [icon]="socialLink.icon"></nb-icon>
+        <ng-template #title>{{ socialLink.title }}</ng-template>
+      </a>
+    </ng-container>
+  </div>
+</section>
+-->
+
+<section class="another-action" aria-label="Sign in">
+    ¿Ya posee una cuenta? <a class="text-link" routerLink="../login">Iniciar Sesión</a>
+</section>

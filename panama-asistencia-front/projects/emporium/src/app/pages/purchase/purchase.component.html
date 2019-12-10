@@ -1,0 +1,194 @@
+<div fxFlex.gt-md="70" class="px-1">
+  <p class="title py-1">Resumen de Compra</p>
+  <div class="divider strong"></div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <p fxFlex.gt-md="50" class="py-2">Opción {{ option.id }}: {{ deal.short_title }}</p>
+    <div fxFlex.gt-md="50" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+      <p class="text-muted">${{ option.original }} </p>
+      <p class="new-price">${{ option.discount }} </p>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-icon-button (click)="subCount()"><i class="fa fa-chevron-circle-left"></i></button>
+        <p>{{ count }}</p>
+        <button mat-icon-button (click)="addCount()"><i class="fa fa-chevron-circle-right"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="strong"></div>
+
+  <div>
+    <div fxFlex="100" fxFlex.xs="100" fxFlex.sm="100" fxLayout="column" class="payment">
+      <div class="title-payment fw-700">
+        <p>Método de pago</p>
+      </div>
+      <div>
+        <mat-card class="cards-container">
+
+          <div>
+            <mat-radio-group [(ngModel)]="userCard">
+
+              <mat-list *ngFor="let card of cards" fxLayout="column" class="cardList">
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <mat-radio-button class="card-name" [value]="card" color="primary">
+                    ************{{ card.card_number | slice: -4 }}
+                  </mat-radio-button>
+                  <mat-list-item fxLayoutAlign="end center">
+                    <span>
+                      <img class="card-icon" src="../../../assets/images/payment/{{ card.card_type }}.svg" alt="">
+                    </span>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="deleteCard(card['id'])">
+                        <span>Eliminar</span>
+                      </button>
+                    </mat-menu>
+                  </mat-list-item>
+
+                </div>
+                <span fxLayoutAlign="center center" class="divider"></span>
+              </mat-list>
+
+              <div class="divider mt-1"></div>
+            </mat-radio-group>
+          </div>
+          <mat-expansion-panel hideToggle="true">
+            <form [formGroup]="paymentForm" #form="ngForm">
+              <div fxLayout="row wrap">
+                <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start" class="p-1">
+                  <span class="">Tarjeta de Crédito</span>
+                  <div fxLayout="row" class="d-block">
+                    <mat-radio-group formControlName="cardType">
+                      <mat-radio-button mat-button value='2' color="primary">
+                        <img class="card-icon" src="../../../assets/images/payment/Mastercard.svg" alt="">
+                      </mat-radio-button>
+                      <mat-radio-button mat-button value='1' color="primary">
+                        <img class="card-icon" src="../../../assets/images/payment/Visa.svg" alt="">
+                      </mat-radio-button>
+                      <mat-error color="warn" *ngIf="!!paymentForm.controls.cardType.errors?.required">Campo
+                        requerido</mat-error>
+                    </mat-radio-group>
+
+                  </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+                  <mat-form-field class="w-100">
+                    <input color="accent" matInput placeholder="Nombre del titular" formControlName="cardHolderName"
+                      required>
+                    <mat-error color="accent" *ngIf="!!paymentForm.controls.cardHolderName.errors?.required">Campo
+                      requerido</mat-error>
+                  </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+                  <mat-form-field class="w-100">
+                    <input matInput placeholder="Número de Tarjeta" formControlName="cardNumber" required>
+                    <mat-error color="accent" *ngIf="!!paymentForm.controls.cardNumber.errors?.required">
+                      Campo requerido
+                    </mat-error>
+                    <mat-error color="accent" *ngIf="paymentForm.controls.cardNumber.errors?.minLength">
+                      Ingrese un número de tarjeta válido
+                    </mat-error>
+                    <mat-error color="accent" *ngIf="paymentForm.controls.cardNumber.errors?.maxLength">
+                      Ingrese un número de tarjeta válido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                  <mat-form-field class="w-100">
+                    <mat-select placeholder="Mes de expiración" formControlName="expiredMonth" required>
+                      <mat-option *ngFor="let month of months" [value]="month.value">
+                        {{month.name}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error color="accent" *ngIf="!!paymentForm.controls.expiredMonth.errors?.required">Campo
+                      requerido</mat-error>
+                  </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                  <mat-form-field class="w-100">
+                    <mat-select placeholder="Año de expiración" formControlName="expiredYear" required>
+                      <mat-option *ngFor="let year of years" [value]="year | slice: 2">
+                        {{year}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error color="accent" *ngIf="!!paymentForm.controls.expiredYear.errors?.required">Campo
+                      requerido</mat-error>
+                  </mat-form-field>
+                </div>
+                <!--
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                  <mat-form-field class="w-100">
+                    <input matInput placeholder="CVV" formControlName="cvv" required>
+                    <mat-error color="accent" *ngIf="!!paymentForm.controls.cvv.errors?.required">Campo requerido</mat-error>
+                  </mat-form-field>
+                </div>
+              -->
+              </div>
+              <mat-action-row fxLayoutAlign="space-between center">
+                <button mat-raised-button color="warn" (click)="addCard.close(); form.resetForm()" >Cancelar</button>
+                <button mat-raised-button color="primary" (click)="addUserCard(); form.reset()" [disabled]="submitted || !form.valid">Agregar
+                  Tarjeta</button>
+              </mat-action-row>
+            </form>
+          </mat-expansion-panel>
+          <span fxLayoutAlign="end center" fxLayoutAlign.xs="space-around center" class="mt-1">
+            <button mat-raised-button color="primary" (click)="addCard.open()" (click)="hideToggle()">Agregar Tarjeta
+              <i class="fas fa-plus"></i>
+            </button>
+          </span>
+          <!--
+          <mat-list fxLayout="row" fxLayoutAlign="center center" fxHide fxShow.xs="true">
+            <mat-list-item>Agregar Tarjeta
+              <button mat-raised-button (click)="addCard.open()"><i class="fas fa-plus"></i></button>
+            </mat-list-item>
+          </mat-list>
+          -->
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div fxFlex.gt-md="30" fxLayout="column" fxLayoutAlign="space-between center">
+
+  <mat-card class="mt-3">
+    <img mat-card-image src="assets/images/banners/Banner-1.jpg">
+    <mat-card-content>
+      <p>{{ deal.short_title }}</p>
+      <a class="more fw-500" [routerLink]="['/deals', deal.id, deal.short_title]">
+        <h5>Ver detalle ></h5>
+      </a>
+    </mat-card-content>
+    <div class="divider div-margin"></div>
+    <mat-card-content>
+      <mat-list fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-list-item>
+          <p>Cantidad</p>
+        </mat-list-item>
+        <mat-list-item fxLayoutAlign="end start">
+          <p>{{ count }}</p>
+        </mat-list-item>
+      </mat-list>
+      <mat-list fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-list-item>
+          <p>Precio</p>
+        </mat-list-item>
+        <mat-list-item fxLayoutAlign="end start">
+          <p>{{ option.discount }}</p>
+        </mat-list-item>
+      </mat-list>
+      <mat-list fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-list-item>
+          <p class="fw-600">Total</p>
+        </mat-list-item>
+        <mat-list-item fxLayoutAlign="end start">
+          <p>{{ option.discount * count }}</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+
+  <button (click)="createPurchase()" mat-raised-button color="primary" class="w-100 mt-1">Proceder
+    a Pagar</button>
+
+</div>

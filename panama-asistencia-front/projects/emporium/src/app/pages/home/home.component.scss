@@ -1,0 +1,13 @@
+.products-tabs{
+    margin-top: 30px;   
+}
+
+.secondary{
+    margin-left: 10px;
+}
+
+@media (max-width: 599px) {
+    .secondary{
+        margin: 10px 0px 0px 0px;
+    }
+}

@@ -1,0 +1,36 @@
+<footer class="bg-primary footer">
+    <div fxLayout="column" fxLayout.gt-sm="row wrap" fxLayoutAlign="center center" class="border-bottom-mute subscribe-block theme-container">
+        <div fxFlex="100" fxFlex.gt-sm="40" fxLayout="column" fxLayoutAlign="center center"> 
+            <h1 class="fw-500">Subscríbete</h1>
+            <h3 class="fw-300 secondary-color">Recibe nuestras Ofertas y Promociones</h3>
+        </div>
+        <form method="get" class="subscribe-search-form" fxLayout="row" fxFlex="100" fxFlex.gt-sm="42.4" ngClass.sm="mt-2" ngClass.xs="mt-2">
+            <input type="text" placeholder="Correo Electrónico..." fxFlex>
+            <button mat-raised-button color="primary" (click)="subscribe()" type="button" >Subscríbete</button>
+        </form>
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between" class="py-3 border-bottom-mute theme-container">        
+        <div fxFlex="100" fxFlex.gt-sm="20" fxFlex.sm="40"> 
+            <h3 class="col-title">Contáctenos</h3>
+            <p class="mt-1"><a routerLink="/" class="link secondary-color">Publica con nosotros</a></p>
+            <p class="mt-1"><a routerLink="/" class="link secondary-color">Dejanos saber tus dudas</a></p>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="30" fxFlex.sm="60" ngClass.xs="mt-2"> 
+            <h3 class="col-title">Nosotros</h3>    
+            <p class="mt-1"><a routerLink="/" class="link secondary-color">Términos de Uso y Condiciones</a></p>
+            <p class="mt-1"><a routerLink="/" class="link secondary-color">Políticas de Privacidad</a></p>        
+            <p class="mt-1"><a routerLink="/" class="link secondary-color">Preguntas frecuentes (F.A.Q.)</a></p>        
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="50" ngClass.sm="mt-2" ngClass.xs="mt-2"> 
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [mapTypeControl]="true">
+                <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+            </agm-map>
+        </div>
+    </div>
+    
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" class="copyright secondary-color theme-container">
+        <!--<p ngClass.xs="mt-1">Copyright © 2019 Todos los derechos reservados</p>-->
+        <p>Diseñado y elaborado por <a mat-button href="http://themeseason.com/" target="_blank">Tarjeta de Oferta </a></p>
+    </div>
+    
+</footer>

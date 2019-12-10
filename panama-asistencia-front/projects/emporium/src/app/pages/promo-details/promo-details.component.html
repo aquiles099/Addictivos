@@ -1,0 +1,221 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="filter-sidenav"
+      perfectScrollbar>
+
+      <mat-accordion displayMode="flat" multi="true">
+          <mat-expansion-panel expanded>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <h4>Categorías</h4>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="categories-wrapper categories-dropdown" perfectScrollbar>
+                  <app-category-list [categories]="categories" [categoryParentId]="0" (change)="onChangeCategory($event)"></app-category-list>
+              </div>
+          </mat-expansion-panel>
+          <!--Prices-Color-Sixes-Conditions-Brands-Other
+          <mat-expansion-panel expanded>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <h4>Price</h4>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+                  <span>From: <b>${{priceFrom}}</b></span>
+                  <span>To: <b>${{priceTo}}</b></span>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="space-between center" class="filter-price">
+                  <mat-slider color="primary" max="2000" min="1" thumb-label="true" [(ngModel)]="priceFrom"></mat-slider>
+                  <mat-slider color="warn" max="2000" min="1" thumb-label="true" [(ngModel)]="priceTo"></mat-slider>
+              </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <h4>Color</h4>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-buttons">
+                  <button mat-raised-button *ngFor="let color of colors" [style.background]="color">&nbsp;</button>
+              </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <h4>Size</h4>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-buttons">
+                  <button mat-raised-button *ngFor="let size of sizes">{{size}}</button>
+              </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <h4>Condition</h4>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div fxLayout="column">
+                  <mat-checkbox color="primary">New</mat-checkbox>
+                  <mat-checkbox color="primary">Used</mat-checkbox>
+                  <mat-checkbox color="primary">Not Specified</mat-checkbox>
+              </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <h4>Brands</h4>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands">                  
+                  <button mat-raised-button *ngFor="let brand of brands">
+                      <img [src]="brand.image"/>
+                  </button>
+              </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <h4>Now starting at $1379</h4>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div fxLayout="row wrap" fxLayoutAlign="center center">
+                 <a [routerLink]="['/products/electronics']"><img src="assets/images/products/probook/2-medium.png" alt="" class="mw-100"></a>
+              </div>
+          </mat-expansion-panel>
+-->
+      </mat-accordion>
+
+  </mat-sidenav>
+  <mat-sidenav-content class="all-products" ngClass.gt-sm="p-left">
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="filter-row mat-elevation-z1 text-muted">
+          <!--<button *ngIf="!sidenavOpen" mat-icon-button (click)="sidenav.toggle()">
+              <mat-icon>more_vert</mat-icon>
+          </button>
+          <div>
+              <a mat-button [matMenuTriggerFor]="sortMenu" #sortMenuTrigger="matMenuTrigger">
+                  {{sort}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+              </a>
+              <mat-menu #sortMenu="matMenu" xPosition="before" class="app-dropdown" overlapTrigger="true">
+                  <span (mouseleave)="sortMenuTrigger.closeMenu()">
+                      <button mat-menu-item *ngFor="let sort of sortings" (click)="changeSorting(sort)">
+                          <span>{{sort}}</span>
+                      </button>
+                  </span>
+              </mat-menu>
+          </div>-->
+          <div>
+              <a mat-button [matMenuTriggerFor]="countsMenu" #countsMenuTrigger="matMenuTrigger">
+                  Ver {{count}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+              </a>
+              <mat-menu #countsMenu="matMenu" xPosition="before" class="app-dropdown" overlapTrigger="true">
+                  <span (mouseleave)="countsMenuTrigger.closeMenu()">
+                      <button mat-menu-item *ngFor="let count of counts" (click)="changeCount(count)">
+                          <span>{{count}}</span>
+                      </button>
+                  </span>
+              </mat-menu>
+              <button mat-icon-button (click)="changeViewType('list', 100)">
+                  <mat-icon>view_list</mat-icon>
+              </button>
+              <button mat-icon-button (click)="changeViewType('grid', 33.3)">
+                  <mat-icon>view_module</mat-icon>
+              </button>
+              <button mat-icon-button (click)="changeViewType('grid', 25)">
+                  <mat-icon>view_comfy</mat-icon>
+              </button>
+          </div>
+      </div>
+
+      <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
+          <div *ngFor="let deal of deals | paginate: { itemsPerPage: count, currentPage: page }" fxLayout="row"
+              fxLayout.gt-sm="row">
+              <div class="container-oferta">
+                  <mat-card class="oferta mt-1" fxLayout="column">
+                      <a [routerLink]="['/promos', deal.id, slugify(deal.short_title)]" class="img-container">
+                          <img data-src="assets/images/banners/Banner-{{ deal.id }}.jpg" class="img-oferta" />
+                      </a>
+
+                      <mat-card-content class="descripcion" fxLayout="column" fxLayoutAlign="center center">
+                          <h3>{{ deal.short_title }}</h3>
+                          <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+                              <mat-card-subtitle fxLayoutAlign="start center" class="m-0">Categoría</mat-card-subtitle>
+                              <!--RATING DEL PRODUCTO-->
+                              <app-rating [ratingsCount]="4" [ratingsValue]="350" [direction]="'column'"></app-rating>
+                          </div>
+                      </mat-card-content>
+
+                      <div class="descuento w-100" fxLayout="row" fxLayoutAlign="space-between center">
+                          <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+                              <p class="new-price fw-600">${{ deal.discount }}</p>
+                              <p class="old-price text-muted">${{ deal.option_pricings[0].original }}</p>
+                          </div>
+
+                          <div class="text">
+                              <p selected="true"><span class="fw-700">{{ deal.discount }}%</span>OFF</p>
+                          </div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="center space-between">
+                          <a [routerLink]="['/promos', deal.id, slugify(deal.short_title)]" mat-raised-button color="primary"
+                              class="mt-1 ver-oferta fw-700">Ver
+                              Promoción</a>
+                      </div>
+                  </mat-card>
+              </div>
+          </div>
+      </div>
+
+      <div *ngIf="viewType == 'list'" fxLayout="row wrap" class="products-wrapper">
+          <div *ngFor="let deal of deals | paginate: { itemsPerPage: count, currentPage: page }" fxLayout="column"
+              fxLayout.gt-sm="column">
+              <div class="container-oferta-col">
+                  <mat-card class="oferta mt-1" fxLayout="row">
+                      <a [routerLink]="['/promos', deal.id, slugify(deal.short_title)]" class="img-container" fxFlex="50">
+                          <img data-src="assets/images/banners/Banner-{{ deal.id }}.jpg" class="img-oferta" />
+                      </a>
+                      <div fxFlex="50" class="oferta-col">
+                          <mat-card-content class="descripcion" fxLayout="column" fxLayoutAlign="center center">
+                              <h3>{{ deal.long_title }}</h3>
+                              <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100 mt-1">
+                                  <mat-card-subtitle fxLayoutAlign="start center" class="m-0">Categoría</mat-card-subtitle>
+                                  <!--RATING DEL PRODUCTO-->
+                                  <app-rating [ratingsCount]="4" [ratingsValue]="350" [direction]="'column'"></app-rating>
+                              </div>
+                          </mat-card-content>
+
+                          <div class="descuento w-100" fxLayout="row" fxLayoutAlign="space-between center">
+                              <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+                                  <p class="new-price fw-600">${{ deal.discount }}</p>
+                                  <p class="old-price text-muted">${{ deal.option_pricings[0].original }}</p>
+                              </div>
+
+                              <div class="text">
+                                  <p selected="true"><span class="fw-700">{{ deal.discount }}%</span>OFF</p>
+                              </div>
+                          </div>
+                          <div fxLayout="row" fxLayoutAlign="center space-between">
+                              <a [routerLink]="['/promos', deal.id, slugify(deal.short_title)]" mat-raised-button color="primary"
+                                  class="mt-1 ver-oferta fw-700">Ver Promoción
+                              </a>
+                          </div>
+                      </div>
+                  </mat-card>
+              </div>
+          </div>
+      </div>
+
+      <div *ngIf="products.length > 0" fxLayout="row wrap">
+          <div fxFlex="100">
+              <mat-card class="p-0 text-center">
+                  <pagination-controls class="product-pagination" autoHide="true" maxSize="5" (pageChange)="onPageChanged($event)"></pagination-controls>
+              </mat-card>
+          </div>
+      </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

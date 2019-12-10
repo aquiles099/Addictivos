@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header>Editar Categoría</nb-card-header>
+            <nb-card-body>
+
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <button nbButton (click)="enableEdit()">Editar
+                        <nb-icon icon="edit-2-outline"></nb-icon>
+                    </button>
+                </div>
+
+                <form (ngSubmit)="editCategory()" [formGroup]="editForm">
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div class="form-control-group" fullWidth fxFlex="33.3%">
+                            <label class="label" for="input-title">Título</label>
+                            <input nbInput fullWidth formControlName="title" placeholder="{{ category.title }}" name="title">
+                        </div>
+
+                        <div class="form-control-group" fxFlex="33.3%">
+                            <label class="label" for="input-icon_class">Ícono</label>
+                            <input nbInput fullWidth formControlName="icon_class" placeholder="{{ category.icon_class }}"
+                                name="icon_class">
+                        </div>
+
+                        <div class="form-control-group" fullWidth fxFlex="33.3%">
+                            <label class="label" for="input-slug">Slug</label>
+                            <input nbInput fullWidth formControlName="slug" placeholder="{{ category.title }}" name="slug">
+                        </div>
+                    </div>
+                    <div class="col-lg-12 text-right">
+                        <button nbButton status="primary" [disabled]="!editForm.invalid">Guardar</button>
+                    </div>
+
+                </form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

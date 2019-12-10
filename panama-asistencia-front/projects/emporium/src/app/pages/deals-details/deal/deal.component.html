@@ -1,0 +1,146 @@
+<div *ngIf="!deal" id="nb-global-spinner" class="spinner">
+    <div class="blob blob-0"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
+</div>
+<div *ngIf="deal">
+
+    <h2 >
+        {{ deal.short_title }}
+    </h2>
+
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50">
+
+            <mat-card class="product-image">
+                <button mat-icon-button (click)="openZoomViewer()" fxHide="false" fxHide.gt-md>
+                    <mat-icon>fullscreen</mat-icon>
+                </button>
+                <img *ngIf="image" [src]="image" (mousemove)="onMouseMove($event)" (mouseleave)="onMouseLeave($event)" />
+            </mat-card>
+
+            <div class="small-carousel">
+                <div class="swiper-container" [swiper]="config">
+                    <div class="swiper-wrapper">
+                        <div *ngFor="let slide of slides" class="swiper-slide">
+                            <mat-card (click)="selectImage(slide.image)" class="p-1">
+                                <img [attr.data-src]="slide.image" class="swiper-lazy" />
+                                <div class="swiper-lazy-preloader"></div>
+                            </mat-card>
+                        </div>
+                    </div>
+                    <button mat-icon-button class="swiper-button-prev swipe-arrow">
+                        <mat-icon>keyboard_arrow_left</mat-icon>
+                    </button>
+                    <button mat-icon-button class="swiper-button-next swipe-arrow">
+                        <mat-icon>keyboard_arrow_right</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" ngClass.gt-sm="px-1 m-0" ngClass.sm="mt-2" ngClass.xs="mt-2">
+
+            <div #zoomViewer fxShow="false" fxShow.gt-md>
+                <mat-card *ngIf="zoomImage" class="zoom-viewer mat-elevation-z18" [ngStyle]="{'background-image': 'url(' + zoomImage + ')'}"></mat-card>
+            </div>
+
+            <h3 class="fw-500">{{ deal.short_description }}</h3>
+            <div class=" lh" fxLayout="row" fxLayoutAlign="space-between center">
+                <p><span class="text-muted fw-500">Categoría: </span><span>{{ ( appService.Data.categories | filterById
+                        :
+                        product?.categoryId )?.name }}</span></p>
+                <!-- <p><span class="text-muted fw-500">Availibility: </span><span>{{ (deal.deal_total_limit > 0) ? 'In stock':'Unavailable'}}</span></p>-->
+                <app-rating class="px-2" [ratingsCount]="4" [ratingsValue]="350" [direction]="'column'"></app-rating>
+            </div>
+
+            <div fxLayout="column" fxLayoutAlign="space-between center">
+                <h4 class="text-muted"> DESDE </h4>
+                <h1>${{ selected.discount }}.00</h1>
+                <h4 class="text-muted"> Antes <span class="old-price"> ${{ selected.original }}.00</span> </h4>
+                <mat-form-field fxLayoutAlign="center start" class="menu-op" color="primary">
+                    <mat-select placeholder="Opciones de Precio" [(value)]="selected" name="prueba">
+                        <mat-option *ngFor="let option of deal.option_pricings; let i=index" [value]="option">
+                            Opción {{ i+1 }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-raised-button color="primary" class="mb-1" (click)="purchase(deal, selected)">COMPRAR</button>
+            </div>
+
+            <div class="divider"></div>
+            <!-- <lib-countdown class="mt-1" fxLayoutAlign="center" date="{{ deal.closing_date | amDateFormat:'LL'}} 00:00"
+            isCustomTemplate="isCustomTemplate" (daysChanged)="onDaysChanged($event)" (hoursChanged)="onHoursChanged($event)"
+            (minutesChanged)="onMinutesChanged($event)" (secondsChanged)="onSecondsChanged($event)">
+            <div fxLayout="column">
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>
+                        <p class="text-muted">Termina en: </p>
+                    </div>
+                    <div class="card-image fw-600" fxLayout="row">
+                        <span class="number-style" fxLayout="column" fxLayoutAlign="center center">
+                            <mat-card fxLayout="column" fxLayoutAlign="center center">{{ days }} 
+                                <br> <p>Días</p>
+                            </mat-card>
+                        </span>
+                        <span class="number-style" fxLayout="column" fxLayoutAlign="center center">
+                            <mat-card fxLayout="column" fxLayoutAlign="center center">{{ hours }} 
+                                <br> <p>Horas</p>
+                            </mat-card>                           
+                        </span>
+                        <span class="number-style" fxLayout="column" fxLayoutAlign="center center">
+                            <mat-card fxLayout="column" fxLayoutAlign="center center">{{ minutes }} 
+                                <br> <p>Min</p>
+                            </mat-card>                            
+                        </span>
+                        <span class="number-style" fxLayout="column" fxLayoutAlign="center center">
+                            <mat-card fxLayout="column" fxLayoutAlign="center center">{{ seconds }} 
+                                <br> <p>Seg</p>
+                            </mat-card>                         
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </lib-countdown> -->
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted py-1">
+                <button mat-button>
+                    <mat-icon>share</mat-icon> Compartir
+                </button>
+                <button mat-icon-button><img class="rrss" src="assets/images/iconsPA/gmail.jpg"></button>
+                <button mat-icon-button><img class="rrss" src="assets/images/iconsPA/facebook-color.png"></button>
+                <button mat-icon-button><img class="rrss" src="assets/images/iconsPA/twitter-color.png"></button>
+                <button mat-icon-button><img class="rrss" src="assets/images/iconsPA/instagram-color.png"></button>
+            </div>
+        </div>
+    </div>
+
+    <div fxLayout="row wrap" class="mt-2">
+        <div fxFlex="100" fxFlex.gt-md="100" fxFlex.md="100">
+            <mat-card>
+                <mat-tab-group [@.disabled]="true" [selectedIndex]="0" color="primary">
+                    <mat-tab label="Descripción">
+                        <div class="full-desc lh">
+                            {{ deal.long_description }}
+                            <ul class="px-2 mt-1">
+                            </ul>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Restricciones">
+                        <div class="full-desc lh">
+                            {{ deal.restrictions }}
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-card>
+        </div>
+    </div>
+</div>
+<!--<div class="py-2 mt-2">
+    <h2>Related Products</h2>
+    <div class="divider"></div>
+    <app-products-carousel [products]="relatedProducts"></app-products-carousel>
+</div>-->

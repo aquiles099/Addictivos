@@ -1,0 +1,143 @@
+.label{
+    //background-color: #dededc;
+    //background: linear-gradient(to bottom, #ffffff, #1c91e2) !important;
+    //background: linear-gradient(to bottom, #ffffff, #f3a214) !important;
+    margin-top: 20px;
+    padding: 5px;
+    border-radius: 4px;
+    a{
+        color: #000000;
+        text-decoration: none;
+        &:hover{
+            text-decoration-color: #ffffff;
+            color: #cecece; //#6f6c6c;
+        }
+    }
+
+}
+
+.container-oferta{
+    flex-wrap: wrap;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    line-height: 1.15;
+
+    .img-container{
+        align-self: center;
+        position: relative;
+        max-height: 45%;
+        max-width: 100%;
+        .img-oferta{
+            height: 100%;
+            width: 100%;
+            margin: auto;
+        }
+    }
+    
+    .oferta{
+        height: 350px;
+        max-width: 263px;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 5px 10px 5px !important;
+        margin-right: 2px;
+        margin-left: 2px;
+
+        .ver-oferta{
+   
+            color: #fff;
+            margin-top: auto !important;
+            padding: 7px 20px;
+            line-height: 25px; 
+        }
+
+        .descripcion{
+            margin-bottom: 5px !important;
+            font-size: small;
+        }
+    }
+
+    .prices{
+        margin: 5px 0;
+        align-self: center;
+        .old-price{
+            text-decoration: line-through;
+            font-size: 16px;
+        }
+        .new-price{
+            color: #d32f2e;
+            font-size: 26px; //13px
+            font-weight: 500;
+            padding: 0px 2px;
+        }
+        .price-text{
+            font-weight: bold;
+            text-transform: uppercase;
+            padding-right: 5px;
+        }
+    }
+
+    .descuento{
+        justify-content: space-between;
+        align-items: center;
+        .text{
+            color: #6f6c6c; // #000000;
+            font-weight: 500;
+            font-style: oblique;
+            font-size: 26px; 
+        } 
+    }
+}
+
+.divider-oferta{
+    color: black;
+    width: 1px;
+    height: 200px;
+}
+
+.swiper-container{
+    padding: 16px 2px 2px 2px;
+    .swiper-slide{
+        text-align: center;
+    }
+}
+.swiper-button-next.swiper-button-disabled, 
+.swiper-button-prev.swiper-button-disabled{
+    pointer-events: auto;
+}
+
+mat-card-content {
+    h3 {
+        font-size: 1.17em;
+        line-height: 1.15;
+        font-family: Roboto, sans-serif;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 959px){
+    .swiper-button-next{
+        right: 0px; 
+    }
+    .swiper-button-prev{
+        left: 0px; 
+    }
+
+    .container-oferta{
+        .img-container{
+            max-height: 60%;
+        }
+        .oferta{
+            max-width: 330px;
+        }
+    }
+}

@@ -1,0 +1,13 @@
+[
+    { "id": 1, "name": "Categorías", "hasSubCategory": false, "parentId": 0 },
+    { "id": 2, "name": "Restaurantes", "hasSubCategory": false, "parentId": 0 },
+    { "id": 3, "name": "Hoteles", "hasSubCategory": false, "parentId": 0 },
+    { "id": 4, "name": "Turismo", "hasSubCategory": false, "parentId": 0 },
+    { "id": 5, "name": "Recreación", "hasSubCategory": false, "parentId": 0 },
+    { "id": 6, "name": "Belleza/Salud", "hasSubCategory": false, "parentId": 0 },
+    { "id": 7, "name": "Servicios", "hasSubCategory": false, "parentId": 0 },
+    { "id": 8, "name": "Eventos", "hasSubCategory": false, "parentId": 0 },
+    { "id": 9, "name": "Autos", "hasSubCategory": false, "parentId": 0 },
+    { "id": 10, "name": "Productos", "hasSubCategory": false, "parentId": 0 },
+    { "id": 11, "name": "Otros", "hasSubCategory": false, "parentId": 0 }
+]

@@ -1,0 +1,53 @@
+.main{
+    min-height: 400px;
+    min-height: calc(100vh - 288px);
+    padding: 16px;
+}
+.sidenav{
+    width: 250px;
+    padding: 8px 16px;
+    position: fixed;
+    .close{
+        margin-left: 178px;
+    }
+    .divider{
+        margin: 8px 0;
+    }
+}
+.sidenav-toggle{
+    mat-icon{
+        color: #ffffff;
+    }
+}
+.cart-items-count{
+    position: absolute;
+    top: -3px;
+    left: 26px;
+    background: #f44336;
+    height: 18px;
+    width: 18px;
+    line-height: 18px;
+    border-radius: 50%;
+    font-size: 11px;
+}
+
+.search-form{
+    width: 600px;
+
+    ::placeholder{
+        font-size: 13px;
+    }
+}
+
+.login{
+    margin-left: 2% !important;
+}
+
+ mat-toolbar{
+   // background: linear-gradient(to bottom, #f9f9f9, #dadada) !important;
+   // background: linear-gradient(to bottom, #cc3c3b, #f9f9f9) !important;
+   // background: linear-gradient(to bottom, #b1aaaa, #ffffff) !important;
+   background-color: #232f3e !important;
+ }
+
+ 

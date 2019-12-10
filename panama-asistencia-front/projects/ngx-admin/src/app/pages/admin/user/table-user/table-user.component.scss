@@ -1,0 +1,30 @@
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+:host ::ng-deep ng2-smart-table table tr th a{
+  font-weight: 700 !important;
+}
+
+:host ::ng-deep ng2-smart-table table tr th{
+  font-weight: 700 !important;
+}
+
+.nb-theme-default {
+  font-size: 0.80rem;
+}
+
+table{
+  width: 100%;
+}
+
+.btn-sb{
+  border: 0;
+  color: inherit;
+  background: 0 0;
+}
+

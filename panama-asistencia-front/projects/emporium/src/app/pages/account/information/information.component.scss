@@ -1,0 +1,19 @@
+::host /deep/ .mat-form-field.mat-form-field-invalid.mat-form-field-label{
+    color: #D32F2F !important;
+}
+
+::host /deep/ .mat-input-invalid .mat-input-placeholder {
+    color: red !important;
+    caret-color: #D32F2F !important;
+
+}
+
+::host /deep/ .mat-input-invalid .mat-input-ripple {
+    background-color: red !important;
+    caret-color: #D32F2F !important;
+
+}
+/*
+mat-error{
+    color: #D32F2F !important;
+}*/

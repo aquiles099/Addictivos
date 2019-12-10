@@ -1,0 +1,27 @@
+<div fxLayoutAlign="space-between center" fxLayout="column" fxLayout.sm="row" class="container-card">
+    <div *ngFor="let deal of deals">
+        <div >
+            <mat-card fxLayout.gt-sm="row"  fxLayout="column" class="card" fxLayoutAlign="space-between center">
+                <a fxLayout="row" fxFlex.gt-sm="50%" [routerLink]="['/deals', deal.id, slugify(deal.short_title)]">
+                    <img class="img-deal" data-src="assets/images/banners/Banner-{{ deal.id }}.jpg" />
+                </a>
+                <mat-card-content fxLayout="column" fxFlex="46%" class="content ml-1">
+                    <p class="fw-600">{{ deal.short_title }}</p>
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100 mt-1">
+                        <mat-card-subtitle fxLayoutAlign="start center" class="m-0">Categoría</mat-card-subtitle>
+                        <app-rating [ratingsCount]="4" [ratingsValue]="350" [direction]="'column'"></app-rating>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+                        <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+                            <p class="new-price fw-600">${{ deal.option_pricings[0].discount }}</p>
+                            <p class="old-price text-muted">${{ deal.option_pricings[0].original }}</p>
+                        </div>
+
+                        <button mat-raised-button color="primary" [routerLink]="['/deals', deal.id, slugify(deal.short_title)]">Ver
+                            Más</button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

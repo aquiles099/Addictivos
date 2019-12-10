@@ -1,0 +1,21 @@
+.flex{
+    display: flex;
+}
+
+.form-control-group{
+    margin-bottom: 1rem;
+    margin-right: 30px;
+}
+.text-link{
+    color: #d32f2e;
+}
+
+input, textarea{
+    width: 300px !important;
+}
+
+@media (max-width: 959px){
+    .form-control-group{
+        margin-right: 0px;
+    }
+}

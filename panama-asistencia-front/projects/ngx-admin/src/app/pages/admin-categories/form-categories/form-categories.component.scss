@@ -1,0 +1,41 @@
+nb-card-body {
+    overflow: visible;
+    padding-top: 0;
+  
+    > * {
+      margin-top: 1rem;
+    }
+}
+  
+  .full-name-inputs,
+  .validation-checkboxes {
+    display: flex;
+    margin: 0 -0.5rem;
+    padding-bottom: 3%;
+  
+    > * {
+      margin: 0 0.5rem;
+    }
+  }
+  
+  .checkbox-radio {
+    display: flex;
+  }
+  
+  .demo-items {
+    flex: 1 0 33%;
+  }
+
+.form-control-group{
+  margin-bottom: 1rem;
+  margin-right: 30px;
+  flex-direction: column !important;
+}
+
+:host /deep/ nb-select.size-medium button {
+  padding: 0.6875rem 2.2rem 0.6875rem 1.125rem !important; 
+}
+
+.content{
+  width: 100% !important;
+}

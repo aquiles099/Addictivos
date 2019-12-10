@@ -1,0 +1,40 @@
+<div *ngIf="response && deal && selected">
+    <div fxLayout.gt-sm="row" fxLayout.lt-md="column">
+        <span fxFlex.xs="100%" fxFlex.gt-sm="25%" fxLayoutAlign="space-around center">
+            <img class="check" src="assets/images/others/check-circle.png">
+        </span>
+        <div fxFlex.xs="100%" fxFlex.gt-sm="75%">
+            <h1>
+                ¡Felicidades por tu nuevo cupón!
+            </h1>
+            <p class="info fw-400">
+                Gracias por su compra, ahora puedes disfrutar de la misma desde este momento.
+                Cualquier duda o comentario lo puedes hacer al correo <strong>info@tarjetadeoferta.com</strong>
+            </p>
+        </div>
+    </div>
+
+    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" class="mt-1 p-1 bg-color">
+        <span fxFlex.xs="100%" fxFlex.gt-sm="25%" fxLayoutAlign="space-around center">
+            <img class="m-1 img" src="assets/images/banners/Banner-1.jpg">
+        </span>
+        <div fxFlex.xs="100%" fxFlex.gt-sm="75%" fxLayoutAlign="space-between start" fxLayout="column">
+            <p class="description fw-400">{{ deal.short_title }}</p><br>
+            <p class="description fw-300">{{ selected.description }}</p><br>
+            <p class="description fw-300">
+                <span class="fw-400">Cantidad:</span> {{ response['quantity'] }}
+            </p>
+            <p class="description fw-300">
+                <span class="fw-400">Precio por unidad:</span>{{ response['unit_price'] }}
+            </p>
+            <p class="description fw-300">
+                <span class="fw-400">Total:</span>{{ response['total'] }}
+            </p>
+
+
+
+        </div>
+    </div>
+
+</div>
+<app-deals [type]="1" [deals]="deals"></app-deals>

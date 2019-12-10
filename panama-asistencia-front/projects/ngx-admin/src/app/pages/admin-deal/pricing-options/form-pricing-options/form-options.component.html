@@ -1,0 +1,184 @@
+<nb-card class="col-md-12 col-lg-12 col-xxxl-12">
+  <nb-card-header>Nueva Opcion de precio</nb-card-header>
+
+  <form [formGroup]="optionPricingForm">
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-12">
+          <label class="label" for="input-name">Oferta:</label>
+          <nb-select fullWidth formControlName="deals" >
+            <nb-option value="{{deal.id}}" *ngFor="let deal of deals">{{deal.short_title}}</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-lg-4">
+          <label class="label" for="input-email">Precio Original:</label>
+          <input type="number" nbInput fullWidth placeholder="Precio Original" formControlName="original">
+        </div>
+
+        <div class="col-lg-4">
+          <label class="label" for="input-email">Descuento:</label>
+          <input type="text" nbInput fullWidth placeholder="Descuento" formControlName="discount">
+        </div>
+
+        <div class="col-lg-4">
+          <label class="label" for="input-email">Limite Maximo de ventas:</label>
+          <input type="number" nbInput fullWidth placeholder="Limite Maximo de ventas"
+            formControlName="user_purchase_limit">
+        </div>
+        <div class="col-lg-4">
+          <label class="label" for="input-email">Limite Maximo de venta para regalo:</label>
+          <input type="number" nbInput fullWidth placeholder="Venta para regalos"
+            formControlName="user_purchase_gift_limit">
+        </div>
+        <div class="col-lg-4">
+          <label class="label" for="input-email">Cupones de compra de activacion:</label>
+          <input type="number" nbInput fullWidth placeholder="Cupones de compra de activacion"
+            formControlName="purchase_activation">
+        </div>        
+        <div class="col-lg-4">
+          <label class="label" for="input-email">Monto deL credito;:</label>
+          <input type="number" nbInput fullWidth placeholder="Monto deL credito">
+        </div>
+        <div class="col-lg-4">
+          <label class="label" for="input-email">Fecha y hora de inicio:</label>
+          <input type="number" nbInput fullWidth placeholder="Fecha y hora de inicio" formControlName="effective_date">
+        </div>
+        <div class="col-lg-4">
+          <label class="label" for="input-email">Fecha y hora de Finalizacion:</label>
+          <input type="number" nbInput fullWidth placeholder="Fecha y hora de Finalizacion"
+            formControlName="closing_date">
+        </div>
+        <div class="col-lg-4">
+          <label class="label" for="input-name">Opcion de precio Publica:</label>
+          <nb-select placeholder="Publica" fullWidth formControlName="status">
+            <nb-option value="0">No</nb-option>
+            <nb-option value="1">Si</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-lg-4">
+          <label class="label" for="input-name">Cortesia:</label>
+          <nb-select placeholder="Cortesia" fullWidth formControlName="courtesy">
+            <nb-option value="0">No</nb-option>
+            <nb-option value="1">Si</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-lg-12">
+          <label class="label" for="input-email">Descripcion:</label>
+          <input type="text" nbInput fullWidth placeholder="Descripcion" formControlName="description">
+        </div>
+      </div>
+
+      <div class="text-center p-2">
+        <button nbButton (click)="getValues()">Guardar</button>
+      </div>
+    </nb-card-body>
+  </form>
+
+  <!--<nb-card-body>
+    <nb-stepper orientation="horizontal">
+      <nb-step [label]="labelOne" [stepControl]="firstForm" >
+        <ng-template #labelOne>Descripción</ng-template>
+
+        <form [formGroup]="firstForm" (ngSubmit)="onFirstSubmit()" class="step-container">
+          <div class="row">
+              <div class="col-lg-12">
+                    <label class="label" for="input-email">Titulo Corto:</label>
+                    <input type="text" nbInput fullWidth placeholder="Titulo corto" formControlName="original">
+                    <label class="label" for="input-email">Titulo Largo:</label>
+                    <input type="text" nbInput fullWidth placeholder="Titulo largo" formControlName="discount">
+                    <label class="label" for="input-email">Titulo de Regalo:</label>
+                    <input type="text" nbInput fullWidth placeholder="Titulo de Regalo" formControlName="gift_title">
+                    <label class="label" for="input-email">Descripción Corta:</label>
+                    <input type="text" nbInput fullWidth placeholder="Descripcion corta" formControlName="short_description">
+                    <label class="label" for="input-email">Descripcion Larga:</label>
+                    <ckeditor [config]="{ extraPlugins: 'divarea', height: '150' }" formControlName="long_description" ></ckeditor>
+                    <label class="label" for="input-email">Restricciones:</label>
+                    <ckeditor [config]="{ extraPlugins: 'divarea', height: '150' }" ormControlName="restrictions"   ></ckeditor>
+              </div>
+            </div>
+          
+        <div class="text-center p-2">
+          <button nbButton disabled nbStepperNext>prev</button>
+          <button nbButton nbStepperNext>next</button>
+        </div>
+
+        </form>
+      </nb-step>
+      <nb-step [label]="labelTwo" >
+        <ng-template #labelTwo>Especificación</ng-template>
+        <div class="row">
+            <div class="col-lg-12">
+            <div class="full-name-inputs">       
+              <nb-select placeholder="Comercio" nbInput fullWidth  formControlName="commerce_id">
+                  <nb-option value="">Option empty</nb-option>
+                  <nb-option value="0">Option 0</nb-option>
+                  <nb-option value="1">Option 1</nb-option>
+              </nb-select>
+            
+              <nb-select placeholder="Categoria" nbInput fullWidth formControlName="category_id">
+                  <nb-option value="">Option empty</nb-option>
+                  <nb-option value="0">Option 0</nb-option>
+                  <nb-option value="1">Option 1</nb-option>
+              </nb-select>
+            
+              <nb-select placeholder="Publica" nbInput fullWidth formControlName="is_public">
+                <nb-option value="">Seleccione Opcion</nb-option>
+                <nb-option value="0">No</nb-option>
+                <nb-option value="1">Si</nb-option>
+              </nb-select>
+            
+            </div>
+
+            <div class="full-name-inputs">
+              <div class="form-group">
+                <label class="label" for="input-date">Fecha de Inicio:</label>
+                <input type="datetime" nbInput fullWidth formControlName="effective_date">
+              
+              </div>
+
+              <div class="form-group">
+                <label class="label" for="input-date">Fecha Final:</label>
+                <input type="datetime" nbInput fullWidth formControlName="closing_date">
+                
+              </div>
+            </div>
+
+            <div class="full-name-inputs">
+                <div class="form-group">
+                  <label class="label" for="input-date">Fecha limite para reclamar:</label>
+                  <input type="datetime" nbInput fullWidth formControlName="available_until">                
+                </div>
+
+                <div class="form-group">
+                  <label class="label" for="input-email">Comision de Venta:</label>
+                  <input type="text" nbInput fullWidth placeholder="Comision de Venta" formControlName="commission">
+                </div>
+             </div>
+            
+       
+            </div>
+          </div>
+
+        <div class="text-center p-2">
+          <button nbButton nbStepperPrevious>prev</button>
+          <button nbButton nbStepperNext>next</button>
+        </div>
+      
+      </nb-step>
+      <nb-step [label]="labelthird">
+        <form  class="step-container">
+          <ng-template #labelthird>Imagenes</ng-template>
+         <div class="form-group">
+            <label class="label" for="input-email">Imagen de la Oferta:</label>
+            <input type="file" nbInput fullWidth placeholder="Titulo largo" formControlName="avatar">
+          </div>
+      
+          <div class="text-center p-2">
+              <button nbButton (click)="saveDeal()" >Guardar</button>
+          </div>
+        </form>      
+      </nb-step>
+    </nb-stepper>
+  </nb-card-body>-->
+
+</nb-card>

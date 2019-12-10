@@ -1,0 +1,81 @@
+<div class="top-menu">
+
+    <a mat-button [matMenuTriggerFor]="currencyMenu" #currencyMenuTrigger="matMenuTrigger">
+        {{currency}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+    </a>
+    <mat-menu #currencyMenu="matMenu" xPosition="before" class="app-dropdown">
+        <span (mouseleave)="currencyMenuTrigger.closeMenu()">
+            <button mat-menu-item *ngFor="let cur of currencies" (click)="changeCurrency(cur)">
+                <span>{{cur}}</span>
+            </button>
+        </span>
+    </mat-menu>
+
+    <a mat-button [matMenuTriggerFor]="flagMenu" #flagMenuTrigger="matMenuTrigger">
+        <img [src]="flag.image" width="18">
+        <span fxShow="false" fxShow.gt-sm class="flag-menu-title">{{flag.name}}</span>
+        <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+    </a>
+    <mat-menu #flagMenu="matMenu" [overlapTrigger]="true" xPosition="before" class="app-dropdown">
+        <span (mouseleave)="flagMenuTrigger.closeMenu()">
+            <button mat-menu-item *ngFor="let flag of flags" (click)="changeLang(flag)">
+                <img [src]="flag.image" width="18"> {{flag.name}}
+            </button>
+        </span>
+    </mat-menu>
+
+    <!--
+    <span fxShow="false" fxShow.gt-sm>
+        <a mat-button routerLink="/compare">Compare  ({{appService.Data.compareList.length}})</a>
+        <a mat-button routerLink="/wishlist">Wishlist ({{appService.Data.wishList.length}})</a>
+    </span>  
+-->
+
+    <a mat-button [matMenuTriggerFor]="accountMenu" accountMenuTrigger="matMenuTrigger">
+        <mat-icon class="mat-icon-sm account-icon">person</mat-icon>
+        <span fxShow="false" fxShow.gt-sm>Mi cuenta</span>
+        <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+    </a>
+    <mat-menu #accountMenu="matMenu" [overlapTrigger]="false" class="app-dropdown account">
+        <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">
+            <a mat-button routerLink="/account"> 
+                <img src="assets/images/others/user.jpg" alt="user-image" width="50" style="margin-right: 0px">
+            </a>
+            <p>{{user.name}} {{user.last_name}} <br> <small>{{user.username}}</small></p>
+        </div>
+        <div class="divider"></div>
+        <button *ngIf="show == false" mat-menu-item routerLink="/account" color="primary">
+            <mat-icon class="mat-icon-sm" >person</mat-icon> Mi Perfil
+        </button>
+        <a mat-menu-item routerLink="/pages/my-profile" color="primary"> 
+            <mat-icon class="mat-icon-sm" >settings</mat-icon>
+            <span>Configuración</span>
+        </a>
+        <a mat-menu-item routerLink="/compare" fxHide="false" fxHide.gt-sm color="primary">
+            <mat-icon class="mat-icon-sm" >compare</mat-icon>
+            <span>Compare ({{appService.Data.compareList.length}})</span>
+        </a>
+        <a mat-menu-item routerLink="/wishlist" fxHide="false" fxHide.gt-sm color="primary">
+            <mat-icon class="mat-icon-sm">favorite</mat-icon>
+            <span>Wishlist ({{appService.Data.wishList.length}})</span>
+        </a>
+        <a *ngIf="show == true" mat-menu-item routerLink="/pages/dashboard" color="primary">
+            <mat-icon class="mat-icon-sm" >assignment</mat-icon>
+            <span>Administrador</span>
+        </a>
+        <a mat-menu-item routerLink="/" color="primary">
+            <mat-icon class="mat-icon-sm">help</mat-icon>
+            <span>Ayuda</span>
+        </a>
+        <a mat-menu-item routerLink="/HomePage" color="primary">
+            <mat-icon class="mat-icon-sm">help</mat-icon>
+            <span>Home Page</span>
+        </a>
+        <div class="divider"></div>
+        <a mat-menu-item routerLink="/auth/log-out" color="warn">
+            <mat-icon class="mat-icon-sm" color="warn">power_settings_new</mat-icon>
+            <span style="color:red">Cerrar Sesión</span>
+        </a>
+    </mat-menu>
+
+</div>
