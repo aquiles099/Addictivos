@@ -114,7 +114,7 @@ class DealController extends Controller
     public function create($deal_data, $images)
     {
         $deal = Deal::create($deal_data);
-        $full_path = HPath::AVATAR_DEAL . '/'. $deal->id.'/';
+        $full_path = "images/".HPath::AVATAR_DEAL . '/'. $deal->id.'/';
         if(!is_dir($full_path)) {
             mkdir($full_path, 0755, true);
         }
@@ -175,12 +175,13 @@ class DealController extends Controller
         $full_path = "images/".HPath::AVATAR_DEAL . '/'. $deal->id.'/';
         $imagesDeal=ImagesDeal::where("deal_id",$deal->id)->get();
         //se eliminan las que ya estaban registradas con el $deal->id
-        
-        $images_deal_ids=[];
         foreach ($imagesDeal as $key => $imageDeal) {
             File::Delete($imageDeal->avatar_file_name);// se elimina del disco
-            array_push($images_deal_ids,$imageDeal->id);
-            // $imageDeal->delete();
+            if($deal->images_deals_id==$imageDeal->id){
+                $deal->images_deals_id=null;
+                $deal->update();
+            }
+            $imageDeal->delete();
         }
         if(!is_dir($full_path)) {
             mkdir($full_path, 0755, true);
