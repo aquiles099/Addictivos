@@ -7,4 +7,6 @@ export class CompanyModel {
   logo: string;
   description: string;
   phone: string;
+  user_id: string;
+
 }

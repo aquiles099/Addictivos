@@ -6,6 +6,7 @@ import { NbGlobalPosition, NbGlobalPhysicalPosition, NbComponentStatus, NbToastr
 import { AdminService } from '../../admin.service';
 import { Router } from '@angular/router';
 import { ComerceService } from 'projects/ngx-admin/src/service/comerce.service';
+import { UserModel } from 'projects/ngx-admin/src/model/user/response/userModel.model';
 
 @Component({
   selector: 'app-edit-commerce',
@@ -17,6 +18,8 @@ export class EditCommerceComponent implements OnInit {
   public editForm: FormGroup;
   public editRequest: ComerceResquestModel;
   public commerce: ComerceResquestModel;
+  public users: Array<UserModel>;
+
 
   isValid: boolean = false;
   
@@ -40,7 +43,7 @@ export class EditCommerceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.adminService.getCommerce().subscribe(data => {this.commerce = data; console.log(this.commerce)});
+    this.adminService.getCommerce().subscribe(data => {this.commerce = data});
     
     this.editForm = this.formBuilder.group({
       name: [{ value: this.commerce['name'], disabled: true }, Validators.compose([Validators.required, Validators.minLength(3)])],
@@ -53,6 +56,10 @@ export class EditCommerceComponent implements OnInit {
       cellphone: [{ value: this.commerce['cellphone'], disabled: true }, Validators.required],
       user_id: [{value: this.commerce['user_id'], disabled: true},  Validators.required],
     });
+
+    this.adminService.getUsers().subscribe(data =>{
+      this.users = data['data']['users'];
+    })
 
   }
 
@@ -86,39 +93,7 @@ export class EditCommerceComponent implements OnInit {
   save(editRequest: ComerceResquestModel) {
 
     this.commerceService.updateCommerce(this.commerce.id, editRequest);
-    
-    //this.userService.updateUser(this.user['id'], editRequest);
-    /*.toPromise().then(output => {
 
-      this.showToast("success", "Proceso Exitoso", "Usuario Agregado con exitos");
-      setTimeout(() => {
-        this.router.navigate(['/pages/admin/table-user']);
-      }, 300);
-
-    }).catch((error) => {
-      this.showToast("danger", "Ups Sucedio Algo", "Este usuario no lo hemos podido agregar, revisar los campos");
-      console.log(error);
-    });
-    */
-
-  }
-
-  private showToast(type: NbComponentStatus, title: string, body: string) {
-    const config = {
-      status: type,
-      destroyByClick: this.destroyByClick,
-      duration: this.duration,
-      hasIcon: this.hasIcon,
-      position: this.position,
-      preventDuplicates: this.preventDuplicates,
-    };
-    const titleContent = title ? `. ${title}` : '';
-
-    this.index += 1;
-    this.toastrService.show(
-      body,
-      `${titleContent}`,
-      config);
   }
 
   enableEdit() {

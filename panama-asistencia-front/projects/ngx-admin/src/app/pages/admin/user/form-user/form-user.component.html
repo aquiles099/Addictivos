@@ -90,7 +90,7 @@
           <div class="form-control-group">
             <label class="label" for="input-role">Tipo de Usuario</label>
             <nb-select placeholder="Tipo de usuario" formControlName="role">
-              <nb-option *ngFor="let type of userType; let i=index" value="{{ i+1 }}">{{ userType[i] }}
+              <nb-option *ngFor="let type of userType" value="{{ type['id'] }}">{{ type['name'] }}
               </nb-option>
             </nb-select>
           </div>

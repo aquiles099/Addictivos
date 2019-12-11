@@ -1,4 +1,5 @@
 export class PriceOptionModel {
+  id: number;
   original: number;
   discount: number;
   limit: number;
@@ -15,3 +16,4 @@ export class PriceOptionModel {
   purchase_activation: number;
   
 }
+

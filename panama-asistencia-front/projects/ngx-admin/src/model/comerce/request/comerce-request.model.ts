@@ -9,5 +9,6 @@ export class ComerceResquestModel {
   cellphone: string;
   email: string;
   user_id: string;
+  company: string;
 
 }

@@ -42,16 +42,17 @@ export class FormUserComponent implements OnInit {
   userForm: FormGroup;
   private file: File | null = null;
 
-  public userType: Array<string> = ['Root',
-    'Administrador',
-    'Comercio',
-    'Empleado',
-    'Cliente',
-    'Contable',
-    'Analista',
-    'Vendedor',
-    'Marketing'];
-
+  
+  public userType: { id: number, name: string }[] = [
+    { "id": 1, "name": "Root" },
+    { "id": 2, "name": "Administrador" },
+    { "id": 3, "name": "Empleado" },
+    { "id": 4, "name": "Cliente" },
+    { "id": 5, "name": "Contable" },
+    { "id": 6, "name": "Analista" },
+    { "id": 7, "name": "Vendedor" },
+    { "id": 8, "name": "Marketing" }
+];
   public selected: String;
 
   //Toast

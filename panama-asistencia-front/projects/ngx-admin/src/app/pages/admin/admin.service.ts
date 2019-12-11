@@ -19,6 +19,7 @@ const baseUrl = environment.url;
   providedIn: 'root'
 })
 export class AdminService {
+  private urlRole = environment.url + 'user/user_by_role/';
 
   private userEdit = new BehaviorSubject<UserModel>(null);
   private commerceEdit = new BehaviorSubject<ComerceResquestModel>(null);
@@ -76,7 +77,6 @@ export class AdminService {
     return this.http.get<User>(baseUrl + 'user/' + id);
   }
 
-
   createUser(user: User): Observable<User> {
     return this.http.post<User>(baseUrl + 'user/create', user);
   }
@@ -86,6 +86,10 @@ export class AdminService {
       tap((usr: User) => console.log(`added product w/ id=${user.id}`)),
       catchError(this.handleError<User>('addProduct'))
     );
+  }
+
+  public userByRole(id_role: number): Observable<any>{
+    return this.http.get<any>(this.urlRole + id_role);
   }
 
 

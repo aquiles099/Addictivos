@@ -1,4 +1,5 @@
 export class PriceOptionResquestModel {
+  id: number;
   original: number;
   discount: number;
   limit: number;

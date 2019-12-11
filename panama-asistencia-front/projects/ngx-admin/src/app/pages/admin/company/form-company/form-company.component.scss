@@ -24,3 +24,40 @@ nb-card-body {
 .demo-items {
   flex: 1 0 33%;
 }
+
+
+.form-control-group{
+  margin-bottom: 1rem;
+  margin-right: 30px;
+  flex-direction: column !important;
+}
+
+:host /deep/ nb-select.size-medium button {
+  padding: 0.6875rem 2.2rem 0.6875rem 1.125rem !important; 
+}
+
+.content{
+  width: 100% !important;
+}
+
+@media (max-width: 600px){
+  /*
+  input, textarea, nb-select{
+    width: 100% !important;
+  }
+*/
+  .form-control-group{
+    margin-bottom: 1rem;
+    margin-right: 30px;
+    flex-direction: column !important;
+  }
+}
+
+nb-select{
+  display: initial!important;
+}
+
+.nb-select{
+  display: initial!important;
+}
+

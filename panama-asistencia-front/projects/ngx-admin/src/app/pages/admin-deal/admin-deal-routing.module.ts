@@ -31,21 +31,10 @@ const routes: Routes = [
         path: 'table-option-create',
         component: FormOptionsComponent,
       },
-
-
-      
     ],
   },
 ];
 
-/*@NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [
-    RouterModule,
-  ],
-})*/
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

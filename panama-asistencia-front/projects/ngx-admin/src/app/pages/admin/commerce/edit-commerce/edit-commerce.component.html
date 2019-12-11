@@ -1,75 +1,84 @@
 <div class="row">
-    <div class="col-lg-12">
-      <nb-card>
-        <nb-card-header>Editar Comercio</nb-card-header>
-        <nb-card-body>
-  
-          <div fxLayout="row" fxLayoutAlign="space-between center">
-            <button nbButton (click)="enableEdit()">Editar 
-              <nb-icon icon="edit-2-outline"></nb-icon>
-            </button>
+  <div class="col-lg-12">
+    <nb-card>
+      <nb-card-header>Editar Comercio</nb-card-header>
+      <nb-card-body>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <button nbButton (click)="enableEdit()">Editar
+            <nb-icon icon="edit-2-outline"></nb-icon>
+          </button>
+        </div>
+
+        <form (ngSubmit)="editCommerce()" [formGroup]="editForm">
+          <div fxLayout="row" fxLayout.xs="column">
+            <div class="form-control-group" fullWidth fxFlex="50%">
+              <label class="label" for="input-name">Nombre</label>
+              <input nbInput fullWidth formControlName="name" placeholder="{{ commerce.name }}" name="name" #name
+                [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''" required minlength="3" maxlength="20"
+                [attr.aria-invalid]="name.invalid && name.touched ? true : null">
+              <ng-container *ngIf="name.invalid && name.touched">
+                <p class="caption status-danger" *ngIf="name.errors?.required">
+                  Nombre es requerido.
+                </p>
+                <p class="caption status-danger" *ngIf="name.errors?.minlength || name.errors?.maxlength">
+                  El nombre debe contener de x a x caracteres.
+                </p>
+              </ng-container>
+            </div>
+            <div class="form-control-group" fullWidth fxFlex="50%">
+              <label class="label" for="input-description">Descripción</label>
+              <input nbInput fullWidth formControlName="description" placeholder="{{ commerce.description }}" name="description">
+            </div>
           </div>
-  
-          <form (ngSubmit)="editCommerce()" [formGroup]="editForm">
-            <div fxLayout="row" fxLayout.xs="column">
-              <div class="form-control-group" fullWidth fxFlex="50%">
-                <label class="label" for="input-name">Nombre</label>
-                <input nbInput fullWidth formControlName="name" placeholder="{{ commerce.name }}" name="name" #name [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
-                  required minlength="3" maxlength="20" [attr.aria-invalid]="name.invalid && name.touched ? true : null">
-                <ng-container *ngIf="name.invalid && name.touched">
-                  <p class="caption status-danger" *ngIf="name.errors?.required">
-                    Nombre es requerido.
-                  </p>
-                  <p class="caption status-danger" *ngIf="name.errors?.minlength || name.errors?.maxlength">
-                    El nombre debe contener de x a x caracteres.
-                  </p>
-                </ng-container>
-              </div>
-              <div class="form-control-group" fullWidth fxFlex="50%">
-                <label class="label" for="input-description">Descripción</label>
-                <input nbInput fullWidth formControlName="description" placeholder="{{ commerce.description }}" name="description">
-              </div>
+          <div fxLayout="row" fxLayout.xs="column">
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-phone">Telefono</label>
+              <input nbInput fullWidth formControlName="phone" placeholder="{{ commerce.phone }}" name="phone">
             </div>
-            <div fxLayout="row" fxLayout.xs="column">
-              <div class="form-control-group" fxFlex="50%">
-                <label class="label" for="input-phone">Telefono</label>
-                <input nbInput fullWidth formControlName="phone" placeholder="{{ commerce.phone }}" name="phone">
-              </div>
-              <div class="form-control-group" fxFlex="50%">
-                <label class="label" for="input-web_site">Sitio Web</label>
-                <input nbInput fullWidth formControlName="web_site" placeholder="{{ commerce.web_site }}" name="web_site">
-              </div>
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-web_site">Sitio Web</label>
+              <input nbInput fullWidth formControlName="web_site" placeholder="{{ commerce.web_site }}" name="web_site">
             </div>
-  
-            <div fxLayout="row" fxLayout.xs="column">
-              <div class="form-control-group" fxFlex="50%">
-                <label class="label" for="input-email">Correo Electronico</label>
-                <input nbInput fullWidth type="email" formControlName="email" placeholder="{{ commerce.email }}" name="email">
-              </div>
-              <div class="form-control-group" fxFlex="50%">
-                <label class="label" for="input-manager_name">Manager</label>
-                <input nbInput fullWidth formControlName="manager_name" placeholder="{{ commerce.manager_name }}" name="manager_name">
+          </div>
+
+          <div fxLayout="row" fxLayout.xs="column">
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-email">Correo Electronico</label>
+              <input nbInput fullWidth type="email" formControlName="email" placeholder="{{ commerce.email }}" name="email">
+            </div>
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-manager_name">Manager</label>
+              <input nbInput fullWidth formControlName="manager_name" placeholder="{{ commerce.manager_name }}" name="manager_name">
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.xs="column">
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-cellphone">Celular</label>
+              <input nbInput fullWidth formControlName="cellphone" placeholder="{{ commerce.cellphone }}" name="cellphone">
+            </div>
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-legal_id">Legal Id</label>
+              <input nbInput fullWidth formControlName="legal_id" placeholder="{{ commerce.legal_id }}" name="legal_id">
+            </div>
+          </div>
+          <div fxLayout="row" fxLayout.xs="column">
+              <div class="form-control-group" fullWidth fxFlex="50%">
+                <label class="label" for="input-user-id">Usuario Asociado</label>
+                <nb-select placeholder="Usuario Asociado" formControlName="user_id">
+                  <nb-option *ngFor="let user of users" value="{{ user.id }}">{{ user.name }} {{ user.last_name }}
+                  </nb-option>
+                </nb-select>
               </div>
             </div>
 
-            <div fxLayout="row" fxLayout.xs="column">
-                <div class="form-control-group" fxFlex="50%">
-                  <label class="label" for="input-cellphone">Celular</label>
-                  <input nbInput fullWidth formControlName="cellphone" placeholder="{{ commerce.cellphone }}" name="cellphone">
-                </div>
-                <div class="form-control-group" fxFlex="50%">
-                  <label class="label" for="input-legal_id">Legal Id</label>
-                  <input nbInput fullWidth formControlName="legal_id" placeholder="{{ commerce.legal_id }}" name="legal_id">
-                </div>
-              </div>
+          <div class="col-lg-12 text-right">
+            <button nbButton status="primary" [disabled]="!editForm.invalid">Guardar</button>
+          </div>
 
-            <div class="col-lg-12 text-right">
-              <button nbButton status="primary" [disabled]="!editForm.invalid">Guardar</button>
-            </div>
-  
-          </form>
-        </nb-card-body>
-      </nb-card>
-    </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
   </div>
-
+</div>
