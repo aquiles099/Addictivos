@@ -31,7 +31,7 @@ Route::group([
  
 Route::get('deals', 'DealController@index');
 Route::post('create', 'DealController@prepareCreateOrUpdateData');
-Route::patch('{id}', 'DealController@prepareCreateOrUpdateData');
+Route::post('{id}', 'DealController@prepareCreateOrUpdateData');
 Route::get('{id}', 'DealController@get');
 Route::delete('{id}', 'DealController@delete');
 
