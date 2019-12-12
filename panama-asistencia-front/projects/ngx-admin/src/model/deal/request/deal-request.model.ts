@@ -18,7 +18,7 @@ export class DealResquestModel {
   gift_title: string;
   user_gift_limit: string;
   discount: string;
-  images_deal: string;
+  main_image: any;
   payment_type: string;
   deal_type_id: string;
   commission: string;

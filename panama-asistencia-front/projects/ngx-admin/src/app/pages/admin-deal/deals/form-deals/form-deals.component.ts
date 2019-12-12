@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import './ckeditor.loader';
 import 'ckeditor';
+import { Router } from '@angular/router';
 import {DealResquestModel} from '../../../../../model/deal/request/deal-request.model';
 import { DealService } from '../../../../../service/deal.service';
 import { ComerceService } from '../../../../../service/comerce.service';
@@ -17,7 +18,7 @@ import {
 } from '@nebular/theme';
 
 import { ToasterConfig } from 'angular2-toaster';
-
+import * as moment from "moment";
 
 @Component({
   selector: 'app-deals-form',
@@ -25,13 +26,18 @@ import { ToasterConfig } from 'angular2-toaster';
   templateUrl: './form-deals.component.html',
 })
 export class FormDealsComponent {
+  formData = new FormData();
+  // upload
+  fileData: File = null;
 
   dealForm: FormGroup;
-  comerces = [];
-  categorys = [];
-  companys = [];
+  comerces:any[] = [];
+  categorys:any[] = [];
+  companys:any[] = [];
+  types:any[]=[]
   private dealRequest: DealResquestModel;
-  constructor(private fb: FormBuilder, 
+  constructor(private router: Router,
+              private fb: FormBuilder, 
               private dealService: DealService, 
               private toastrService: NbToastrService,
               private comerce_service: ComerceService,
@@ -83,139 +89,94 @@ export class FormDealsComponent {
 
     });
 
-
+    this.dealService.getTypes().toPromise().then(
+      response => {
+        if(response.code==200){
+          this.types=response.data.types;
+        }
+       console.log("dealService gettype:",response);
+      }
+    ).catch(error => {
+      console.log("error:",error);
+        //this.spinner_service.close();
+        //this.notification_service.showError('Error', error.error);
+      }
+    );
 
     this.comerce_service.getComerce().toPromise().then(
-      response => {
-        console.log(response);
-        
-        this.comerces = response.data.commerce.original;
-
-        console.log(this.comerces);
-        
-        
+      response => {        
+        this.comerces = response.data.commerce.original;        
       }
-    ).catch(
-      /*error => {
-        this.spinner_service.close();
-        this.notification_service.showError('Error', error.error);
-      }*/
+    ).catch(error => {
+      console.log("error:",error);
+        //this.spinner_service.close();
+        //this.notification_service.showError('Error', error.error);
+      }
     );
 
     this.category_service.getCategories().toPromise().then(
       response => {
-        console.log(response);
-        
         this.categorys = response.data.categories;
         
       }
-    ).catch(
-      /*error => {
-        this.spinner_service.close();
-        this.notification_service.showError('Error', error.error);
-      }*/
+    ).catch(error => {
+      console.log("error:",error);
+        //this.spinner_service.close();
+        //this.notification_service.showError('Error', error.error);
+      }
     );
 
     this.company_service.getCompany().toPromise().then(
       response => {
-        console.log(response);
         
         this.companys = response.data.company.original;
-        
       }
-    ).catch(
-      /*error => {
-        this.spinner_service.close();
-        this.notification_service.showError('Error', error.error);
-      }*/
+    ).catch(error => {
+      console.log("error:",error);
+        //this.spinner_service.close();
+        //this.notification_service.showError('Error', error.error);
+      }
     );
 
 
   }
-
-
-  getValues() {
-
-    /*console.log(this.dealForm.controls.commerce_id.value);
-    console.log(this.dealForm.controls.category_id.value);
-    console.log(this.dealForm.controls.company_id.value);*/
-    
-    this.dealRequest = new DealResquestModel();
-    this.dealRequest.short_title=this.dealForm.controls.short_title.value;
-    this.dealRequest.long_title=this.dealForm.controls.long_title.value;
-    this.dealRequest.effective_date= this.convertDate(this.dealForm.controls.effective_date.value);
-    this.dealRequest.deal_total_limit=this.dealForm.controls.deal_total_limit.value;
-    this.dealRequest.user_purchase_limit=this.dealForm.controls.user_purchase_limit.value;
-    this.dealRequest.short_description=this.dealForm.controls.short_description.value;
-    this.dealRequest.long_description=this.dealForm.controls.long_description.value;
-    this.dealRequest.restrictions=this.dealForm.controls.restrictions.value;
-    this.dealRequest.commerce_id=this.dealForm.controls.commerce_id.value;
-    this.dealRequest.category_id=this.dealForm.controls.category_id.value;
-    this.dealRequest.is_public=this.dealForm.controls.is_public.value;
-    this.dealRequest.available_until=this.convertDate(this.dealForm.controls.available_until.value); 
-    this.dealRequest.gift_title=this.dealForm.controls.gift_title.value;
-    this.dealRequest.commission=this.dealForm.controls.commission.value;    
-    this.dealRequest.closing_date=this.convertDate(this.dealForm.controls.closing_date.value);       
-    //this.dealRequest.user_gift_limit=this.dealForm.controls.user_gift_limit.value;
-    //this.dealRequest.discount=this.dealForm.controls.discount.value;
-    this.dealRequest.deal_type_id=this.dealForm.controls.deal_type_id.value;
-    this.dealRequest.payment_type=this.dealForm.controls.payment_type.value;
-//    this.dealRequest.seller_id=this.dealForm.controls.seller_id.value;
-    this.dealRequest.company_id=this.dealForm.controls.company_id.value;
-
-    console.log(this.dealRequest);      
-    this.saveDeal(this.dealRequest);
+  getFormData() {
+    this.formData.append("short_title", this.dealForm.controls.short_title.value);
+    this.formData.append("long_title", this.dealForm.controls.long_title.value);
+    this.formData.append("effective_date", this.convertDate(this.dealForm.controls.effective_date.value));
+    this.formData.append("deal_total_limit",this.dealForm.controls.deal_total_limit.value);
+    this.formData.append("user_purchase_limit",this.dealForm.controls.user_purchase_limit.value);
+    this.formData.append("short_description", this.dealForm.controls.short_description.value);
+    this.formData.append("long_description", this.dealForm.controls.long_description.value);
+    this.formData.append("restrictions", this.dealForm.controls.restrictions.value);
+    this.formData.append("commerce_id", this.dealForm.controls.commerce_id.value);
+    this.formData.append("category_id", this.dealForm.controls.category_id.value);
+    this.formData.append("is_public",this.dealForm.controls.is_public.value);
+    this.formData.append("available_until",this.convertDate(this.dealForm.controls.available_until.value));
+    this.formData.append("gift_title", this.dealForm.controls.gift_title.value);
+    this.formData.append("commission", this.dealForm.controls.commission.value);
+    this.formData.append("closing_date", this.convertDate(this.dealForm.controls.closing_date.value));
+    this.formData.append("deal_type_id", this.dealForm.controls.deal_type_id.value);
+    this.formData.append("payment_type", this.dealForm.controls.payment_type.value);
+    this.formData.append("company_id",this.dealForm.controls.company_id.value);
+    this.formData.append("main_image",this.fileData);
+    return this.formData;
   }
 
-
-  saveDeal(dealRequest: DealResquestModel) {
-    /*console.log(this.dealForm.controls.short_title.value);
-    console.log(this.dealForm.controls.long_title.value);
-    console.log(this.dealForm.controls.effective_date.value);
-    console.log(this.dealForm.controls.deal_total_limit.value);
-    console.log(this.dealForm.controls.user_purchase_limit.value);
-    console.log(this.dealForm.controls.short_description.value);
-    console.log(this.dealForm.controls.long_description.value);
-    console.log(this.dealForm.controls.restrictions.value);
-    console.log(this.dealForm.controls.commerce_id.value);
-    console.log(this.dealForm.controls.category_id.value);    
-    console.log(this.dealForm.controls.closing_date.value);
-    console.log(this.dealForm.controls.is_public.value);
-    console.log(this.dealForm.controls.available_until.value);
-    console.log(this.dealForm.controls.gift_title.value);
-    console.log(this.dealForm.controls.user_gift_limit.value);
-    console.log(this.dealForm.controls.discount.value);
-    console.log(this.dealForm.controls.deal_type_id.value);
-    console.log(this.dealForm.controls.payment_type.value);
-    console.log(this.dealForm.controls.seller_id.value);
-    console.log(this.dealForm.controls.company_id.value);*/
-
-    /*this.dealService.saveDeal(dealRequest).subscribe((result) => {
-
-      console.log(result);
-      
-    });*/
-
-    this.dealService.saveDeal(dealRequest).toPromise().then(output => {
-
-      console.log(output);
-      
-    }).catch((error) => {
-      this.makeToast();
-      console.log(error);
-    });
-
-    
-
-
-
-
-   
-    /*if (this.dealForm.status === 'VALID') {
-      console.log('hola');
-    } else {
-      console.log('hola2222');
-    }*/
+  saveDeal() {
+    if(this.validateDates()){
+      this.dealService.saveDeal(this.getFormData()).toPromise().then(output => {
+        this.showToast("success", "Proceso Exitoso", "Oferta Agregada con exitos");
+        setTimeout(() => {
+          this.router.navigate(['/pages/admin-deal/table-deals']);
+        }, 300);
+      }).catch((error) => {
+        this.makeToast();
+        console.log(error);
+      });
+    }else{
+        this.showToast(this.status, "Verifique las fechas", "Verifique que haya seleccionado las fechas correctamente");
+    }
   }
 
   private makeToast() {
@@ -239,13 +200,20 @@ export class FormDealsComponent {
       `${titleContent}`,
       config);
   }
-
+  validateDates(){
+    if(moment(this.dealForm.controls.available_until.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm")>=moment(this.dealForm.controls.closing_date.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm") && moment(this.dealForm.controls.closing_date.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm")>moment(this.dealForm.controls.effective_date.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm")){
+      return true;
+    }
+    return false;
+  }
 
   convertDate(date){
     var splittedHours = date.toString().split(" ", 7); 
     var splittedDate = date.toLocaleString().split("/", 7); 
-    console.log(splittedHours[3]+"-"+splittedDate[0]+"-"+splittedDate[1]+" "+splittedHours[4]);
     return splittedHours[3]+"-"+splittedDate[1]+"-"+splittedDate[0]+" "+splittedHours[4];
+  }
+  fileProgress(fileInput: any) {
+    this.fileData = <File>fileInput.target.files[0];
   }
 
 }
