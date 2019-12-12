@@ -16,7 +16,7 @@ import { UserService } from 'projects/ngx-admin/src/service/user.service';
 })
 export class TableUserComponent implements OnInit {
 
-  displayedColumns: string[] = ['Id', 'Usuario', 'Nombre', 'Apellido', 'Correo', 'Tipo'];
+  displayedColumns: string[] = ['Id', 'Usuario', 'Nombre', 'Apellido', 'Correo', 'Tipo', 'Acciones'];
   dataSource: MatTableDataSource<User>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

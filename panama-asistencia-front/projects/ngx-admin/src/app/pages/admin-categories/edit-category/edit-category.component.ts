@@ -26,7 +26,7 @@ export class EditCategoryComponent implements OnInit {
 
     this.editForm = this.formBuilder.group({
       title: [{ value: this.category.title, disabled: true }, Validators.compose([Validators.required, Validators.minLength(3)])],
-      slug: [{ value: this.category.title, disabled: true }, Validators.required],
+      slug: [{ value: this.category.slug, disabled: true }, Validators.required],
       icon_class: [{ value: this.category.icon_class, disabled: true}, Validators.required]
     });
   }
@@ -44,7 +44,6 @@ export class EditCategoryComponent implements OnInit {
     this.editForm.controls.icon_class.disable();
 
     this.isValid = false;
-
   }
 
   public save(editRequest: CategoryRequestModel) {
@@ -56,7 +55,6 @@ export class EditCategoryComponent implements OnInit {
     this.editForm.controls.slug.enable();
     this.editForm.controls.icon_class.enable();
     this.isValid = true;
-
   }
 
 }

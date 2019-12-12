@@ -1,75 +1,129 @@
 <div class="row">
-    <div class="col-lg-12">
-      <nb-card>
-        <nb-card-header>Editar Usuario</nb-card-header>
-        <nb-card-body>
-  
-          <div fxLayout="row" fxLayoutAlign="space-between center">
-            <button nbButton (click)="enableEdit()">Editar 
-              <nb-icon icon="edit-2-outline"></nb-icon>
-            </button>
+  <div class="col-lg-12">
+    <nb-card>
+      <nb-card-header>Editar Usuario</nb-card-header>
+      <nb-card-body>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <button nbButton (click)="enableEdit()">Editar
+            <nb-icon icon="edit-2-outline"></nb-icon>
+          </button>
+        </div>
+
+        <form (ngSubmit)="editUser()" [formGroup]="editForm">
+          <div fxLayout="row" fxLayout.xs="column">
+            <div class="form-control-group" fullWidth fxFlex="50%">
+              <label class="label" for="input-name">Nombre</label>
+              <input nbInput fullWidth formControlName="name" placeholder="{{ user['name'] }}" name="name" #name
+                [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''" required minlength="3" maxlength="20"
+                [attr.aria-invalid]="name.invalid && name.touched ? true : null">
+              <ng-container *ngIf="name.invalid && name.touched">
+                <p class="caption status-danger" *ngIf="name.errors?.required">
+                  Nombre es requerido.
+                </p>
+                <p class="caption status-danger" *ngIf="name.errors?.minlength || name.errors?.maxlength">
+                  El nombre debe contener de x a x caracteres.
+                </p>
+              </ng-container>
+            </div>
+            <div class="form-control-group" fullWidth fxFlex="50%">
+              <label class="label" for="input-lastName">Apellido</label>
+              <input nbInput fullWidth formControlName="last_name" placeholder="{{ user['last_name'] }}" name="lastName">
+            </div>
           </div>
-  
-          <form (ngSubmit)="editUser()" [formGroup]="editForm">
-            <div fxLayout="row" fxLayout.xs="column">
-              <div class="form-control-group" fullWidth fxFlex="50%">
-                <label class="label" for="input-name">Nombre</label>
-                <input nbInput fullWidth formControlName="name" placeholder="{{ user['name'] }}" name="name" #name [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
-                  required minlength="3" maxlength="20" [attr.aria-invalid]="name.invalid && name.touched ? true : null">
-                <ng-container *ngIf="name.invalid && name.touched">
-                  <p class="caption status-danger" *ngIf="name.errors?.required">
-                    Nombre es requerido.
-                  </p>
-                  <p class="caption status-danger" *ngIf="name.errors?.minlength || name.errors?.maxlength">
-                    El nombre debe contener de x a x caracteres.
-                  </p>
-                </ng-container>
-              </div>
-              <div class="form-control-group" fullWidth fxFlex="50%">
-                <label class="label" for="input-lastName">Apellido</label>
-                <input nbInput fullWidth formControlName="last_name" placeholder="{{ user['last_name'] }}" name="lastName">
-              </div>
-            </div>
-            <div fxLayout="row" fxLayout.xs="column">
-              <div class="form-control-group" fxFlex="50%">
-                <label class="label" for="input-phone">Telefono</label>
-                <input nbInput fullWidth formControlName="phone" placeholder="{{ user['phone'] }}" name="phone">
-              </div>
-              <div class="form-control-group" fxFlex="50%">
-                <label class="label" for="input-address">Dirección</label>
-                <input nbInput fullWidth formControlName="address" placeholder="{{ user['address'] }}" name="address">
-              </div>
-            </div>
-  
-            <div fxLayout="row" fxLayout.xs="column">
-              <div class="form-control-group" fxFlex="50%">
-                <label class="label" for="input-email">Correo Electronico</label>
-                <input nbInput fullWidth type="email" formControlName="email" placeholder="{{ user['email'] }}" name="email">
-              </div>
-              <div class="form-control-group" fxFlex="50%">
-                <label class="label" for="input-username">Usuario</label>
-                <input nbInput fullWidth formControlName="username" placeholder="{{ user['username'] }}" name="username">
-              </div>
-            </div>
 
-            <div fxLayout="row" fxLayout.xs="column">
-                <div class="form-control-group" fxFlex="50%">
-                  <label class="label" for="input-role">Rol</label>
-                  <input nbInput fullWidth formControlName="role" placeholder="{{ user['role'] }}" name="role">
-                </div>
-                <div class="form-control-group" fxFlex="50%">
-                  <label class="label" for="input-policy">Poliza</label>
-                  <input nbInput fullWidth formControlName="policy" placeholder="{{ user['policy'] }}" name="policy">
-                </div>
-              </div>
-
-            <div class="col-lg-12 text-right">
-              <button nbButton status="primary" [disabled]="!editForm.invalid">Guardar Usuario</button>
+          <div fxLayout="row" fxLayout.xs="column">
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-phone">Telefono</label>
+              <input nbInput fullWidth formControlName="phone" placeholder="{{ user['phone'] }}" name="phone">
             </div>
-  
-          </form>
-        </nb-card-body>
-      </nb-card>
-    </div>
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-address">Dirección</label>
+              <input nbInput fullWidth formControlName="address" placeholder="{{ user['address'] }}" name="address">
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.xs="column">
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-email">Correo Electronico</label>
+              <input nbInput fullWidth type="email" formControlName="email" placeholder="{{ user['email'] }}" name="email">
+            </div>
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-username">Usuario</label>
+              <input nbInput fullWidth formControlName="username" placeholder="{{ user['username'] }}" name="username">
+            </div>
+          </div>
+
+          <div>
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-password">Nueva Contraseña</label>
+              <input nbInput fullWidth type="password" formControlName="password" placeholder="contraseña" name="password" >
+              <mat-error *ngIf="editForm.controls.password.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+            </div>
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-password">Confirmar contraseña</label>
+              <input nbInput fullWidth type="password" formControlName="confirmPassword" placeholder="contraseña" name="re-password">
+              <mat-error *ngIf="editForm.controls.confirmPassword.hasError('mismatchedPasswords')">Contraseña
+                  no coincide.</mat-error>
+            </div>
+          </div>
+
+<!--
+          <div class="form-control-group">
+              <label class="label" for="input-password">Contraseña:</label>
+              <input nbInput [(ngModel)]="user.password" #password="ngModel" type="password" id="input-password" name="password"
+                  placeholder="Contraseña" fullWidth fieldSize="large" [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+                  [required]="getConfigValue('forms.validation.password.required')" [minlength]="getConfigValue('forms.validation.password.minLength')"
+                  [maxlength]="getConfigValue('forms.validation.password.maxLength')" [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+              <ng-container *ngIf="password.invalid && password.touched">
+                  <p class="caption status-danger" *ngIf="password.errors?.required">
+                      Contraseña es requerida.
+                  </p>
+                  <p class="caption status-danger" *ngIf="password.errors?.minlength || password.errors?.maxlength">
+                      La contraseña debe contener 
+                      de {{ getConfigValue('forms.validation.password.minLength') }}
+                      a {{ getConfigValue('forms.validation.password.maxLength') }}
+                      caracteres
+                  </p>
+              </ng-container>
+          </div>
+
+          <div class="form-control-group">
+              <label class="label" for="input-re-password">Repetir Contraseña:</label>
+              <input nbInput [(ngModel)]="user.confirmPassword" #rePass="ngModel" type="password" id="input-re-password"
+                  name="rePass" placeholder="Confirmar Contraseña" fullWidth fieldSize="large" [status]="rePass.dirty ? (rePass.invalid || password.value != rePass.value  ? 'danger' : 'success') : ''"
+                  [required]="getConfigValue('forms.validation.password.required')" [attr.aria-invalid]="rePass.invalid && rePass.touched ? true : null">
+              <ng-container *ngIf="rePass.invalid && rePass.touched">
+                  <p class="caption status-danger" *ngIf="rePass.errors?.required">
+                      Se requiere confirmación de la contraseña.
+                  </p>
+                  <p class="caption status-danger" *ngIf="password.value != rePass.value && !rePass.errors?.required">
+                      No coincide con la contraseña introducida.
+                  </p>
+              </ng-container>
+          </div>
+-->
+
+          <div fxLayout="row" fxLayout.xs="column">
+            <div class="form-control-group">
+              <label class="label" for="input-role">Tipo de Usuario</label>
+              <nb-select placeholder="{{ user.role }}" formControlName="role">
+                <nb-option *ngFor="let type of userType" value="{{ type['id'] }}">{{ type['name'] }}
+                </nb-option>
+              </nb-select>
+            </div>
+            <div class="form-control-group" fxFlex="50%">
+              <label class="label" for="input-policy">Poliza</label>
+              <input nbInput fullWidth formControlName="policy" placeholder="{{ user['policy'] }}" name="policy">
+            </div>
+          </div>
+
+          <div class="col-lg-12 text-right">
+            <button nbButton status="primary" [disabled]="!editForm.invalid" >Guardar Usuario</button>
+          </div>
+
+        </form>
+      </nb-card-body>
+    </nb-card>
   </div>
-
+</div>

@@ -1,17 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {ComerceResquestModel} from '../../../../../model/comerce/request/comerce-request.model';
-import {ComerceService } from '../../../../../service/comerce.service';
-
+import { ComerceResquestModel } from '../../../../../model/comerce/request/comerce-request.model';
+import { ComerceService } from '../../../../../service/comerce.service';
 import {
   NbComponentStatus,
-  NbGlobalLogicalPosition,
   NbGlobalPhysicalPosition,
   NbGlobalPosition,
   NbToastrService,
 } from '@nebular/theme';
-
 import { ToasterConfig } from 'angular2-toaster';
+import { AdminService } from '../../admin.service';
+import { UserModel } from 'projects/ngx-admin/src/model/user/response/userModel.model';
 
 
 @Component({
@@ -21,9 +20,26 @@ import { ToasterConfig } from 'angular2-toaster';
 })
 export class FormCommerceComponent {
 
+  public userType: { id: number, name: string }[] = [
+    { "id": 1, "name": "Root" },
+    { "id": 2, "name": "Administrador" },
+    { "id": 3, "name": "Comercio" },
+    { "id": 4, "name": "Empleado" },
+    { "id": 5, "name": "Cliente" },
+    { "id": 6, "name": "Contable" },
+    { "id": 7, "name": "Analista" },
+    { "id": 8, "name": "Vendedor" },
+    { "id": 9, "name": "Marketing" }
+  ];
+  public users: Array<UserModel>;
+
   comerceForm: FormGroup;
   private comerceRequest: ComerceResquestModel;
-  constructor(private fb: FormBuilder, private comerceService: ComerceService, private toastrService: NbToastrService ) {
+
+  constructor(private fb: FormBuilder,
+    private comerceService: ComerceService,
+    private toastrService: NbToastrService,
+    private adminService: AdminService) {
 
   }
   submitted = false;
@@ -52,38 +68,36 @@ export class FormCommerceComponent {
       cellphone: ['', Validators.required],
       email: ['', Validators.required],
       user_id: ['', Validators.required],
-
+      company: ['', Validators.required],
     });
+
+    this.getUsers();
 
   }
 
-
   getValues() {
     this.comerceRequest = new ComerceResquestModel();
-    this.comerceRequest.name=this.comerceForm.controls.name.value;
-    this.comerceRequest.manager_name=this.comerceForm.controls.manager_name.value;
-    this.comerceRequest.description=this.comerceForm.controls.description.value;
-    this.comerceRequest.email=this.comerceForm.controls.email.value;
-    this.comerceRequest.phone=this.comerceForm.controls.phone.value;
-    this.comerceRequest.web_site=this.comerceForm.controls.web_site.value;
-    this.comerceRequest.cellphone=this.comerceForm.controls.cellphone.value;
-    this.comerceRequest.legal_id=this.comerceForm.controls.legal_id.value;
-    this.comerceRequest.user_id=this.comerceForm.controls.user_id.value;
+    this.comerceRequest.name = this.comerceForm.controls.name.value;
+    this.comerceRequest.manager_name = this.comerceForm.controls.manager_name.value;
+    this.comerceRequest.description = this.comerceForm.controls.description.value;
+    this.comerceRequest.email = this.comerceForm.controls.email.value;
+    this.comerceRequest.phone = this.comerceForm.controls.phone.value;
+    this.comerceRequest.web_site = this.comerceForm.controls.web_site.value;
+    this.comerceRequest.cellphone = this.comerceForm.controls.cellphone.value;
+    this.comerceRequest.legal_id = this.comerceForm.controls.legal_id.value;
+    this.comerceRequest.user_id = this.comerceForm.controls.user_id.value;
+    this.comerceRequest.company = this.comerceForm.controls.company.value;
     this.save(this.comerceRequest);
   }
 
 
   save(comerceRequest: ComerceResquestModel) {
-    
     this.comerceService.save(comerceRequest).toPromise().then(output => {
-
       console.log(output);
-      
     }).catch((error) => {
       this.makeToast();
       console.log(error);
     });
-
   }
 
   private makeToast() {
@@ -106,6 +120,12 @@ export class FormCommerceComponent {
       body,
       `${titleContent}`,
       config);
+  }
+
+  public getUsers(){
+    this.adminService.getUsers().subscribe(data =>{
+      this.users = data['data']['users'];
+    })
   }
 
   seleccionEspecialidad() {

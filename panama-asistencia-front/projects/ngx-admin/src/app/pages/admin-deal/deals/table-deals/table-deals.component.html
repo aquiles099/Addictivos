@@ -41,15 +41,29 @@
                   <td mat-cell *matCellDef="let row"> {{row.is_public}} </td>
                 </ng-container>
 
-                <!-- Color Column -->
-                <ng-container matColumnDef="acciones">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
-                  <td mat-cell *matCellDef="let row"> 
-                    <i class="material-icons">visibility</i> 
-                    <i class="material-icons">edit</i> 
-                    <i class="material-icons">delete</i> 
-                  </td>
-                </ng-container>
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                    <td mat-cell *matCellDef="let row">
+                      <button class="btn-sb" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item >
+                          <mat-icon>remove_red_eye</mat-icon>
+                          <span>Ver</span>
+                        </button>
+                        <button mat-menu-item >
+                          <mat-icon>edit</mat-icon>
+                          <span>Editar</span>
+                        </button>
+                        <button mat-menu-item >
+                          <mat-icon>delete</mat-icon>
+                          <span>Borrar</span>
+                        </button>
+                      </mat-menu>
+                    </td>
+                  </ng-container>
             
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;">

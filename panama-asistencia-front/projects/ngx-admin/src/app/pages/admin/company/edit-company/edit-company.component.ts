@@ -7,6 +7,7 @@ import { AdminService } from '../../admin.service';
 import { Router } from '@angular/router';
 import { CompanyResquestModel } from 'projects/ngx-admin/src/model/company/request/company-request.model';
 import { CompanyService } from 'projects/ngx-admin/src/service/company.service';
+import { UserModel } from 'projects/ngx-admin/src/model/user/response/userModel.model';
 
 @Component({
   selector: 'app-edit-company',
@@ -18,6 +19,7 @@ export class EditCompanyComponent implements OnInit {
   public editForm: FormGroup;
   public editRequest: CompanyModel;
   public company: CompanyModel;
+  public users: Array<UserModel>;
 
   isValid: boolean = false;
   
@@ -35,7 +37,6 @@ export class EditCompanyComponent implements OnInit {
   constructor(public formBuilder: FormBuilder,
               public adminService: AdminService,
               public router: Router,
-              private toastrService: NbToastrService,
               public companyService: CompanyService) {
 
   }
@@ -51,10 +52,14 @@ export class EditCompanyComponent implements OnInit {
       address: [{value: this.company.address, disabled: true}, Validators.required],
       phone: [{ value: this.company.phone, disabled: true }, Validators.required],
       logo: [{ value: this.company.logo, disabled: true }, Validators.required],
+      user_id: [{ value: this.company.user_id, disabled: true }, Validators.required],
     });
 
-  }
+    this.adminService.getUsers().subscribe(data =>{
+      this.users = data['data']['users'];
+    })
 
+  }
 
   editCompany() {
     this.editRequest = new CompanyModel();
@@ -64,6 +69,7 @@ export class EditCompanyComponent implements OnInit {
     this.editRequest.email = this.editForm.controls.email.value;
     this.editRequest.phone = this.editForm.controls.phone.value;
     this.editRequest.address = this.editForm.controls.address.value;
+    this.editRequest.user_id = this.editForm.controls.user_id.value;
     //this.editRequest.logo = this.editForm.controls.logo.value;
 
     this.save(this.editRequest);
@@ -75,45 +81,13 @@ export class EditCompanyComponent implements OnInit {
     this.editForm.controls.phone.disable();
     this.editForm.controls.address.disable();
     this.editForm.controls.logo.disable();
+    this.editForm.controls.user_id.disable();
 
     this.isValid = false;
   }
 
   save(editRequest: CompanyModel) {
-
     this.companyService.updateCompany(this.company.id, editRequest);
-    //this.userService.updateUser(this.user['id'], editRequest);
-    /*.toPromise().then(output => {
-
-      this.showToast("success", "Proceso Exitoso", "Usuario Agregado con exitos");
-      setTimeout(() => {
-        this.router.navigate(['/pages/admin/table-user']);
-      }, 300);
-
-    }).catch((error) => {
-      this.showToast("danger", "Ups Sucedio Algo", "Este usuario no lo hemos podido agregar, revisar los campos");
-      console.log(error);
-    });
-    */
-
-  }
-
-  private showToast(type: NbComponentStatus, title: string, body: string) {
-    const config = {
-      status: type,
-      destroyByClick: this.destroyByClick,
-      duration: this.duration,
-      hasIcon: this.hasIcon,
-      position: this.position,
-      preventDuplicates: this.preventDuplicates,
-    };
-    const titleContent = title ? `. ${title}` : '';
-
-    this.index += 1;
-    this.toastrService.show(
-      body,
-      `${titleContent}`,
-      config);
   }
 
   enableEdit() {
@@ -124,6 +98,7 @@ export class EditCompanyComponent implements OnInit {
     this.editForm.controls.phone.enable();
     this.editForm.controls.address.enable();
     this.editForm.controls.logo.enable();;
+    this.editForm.controls.user_id.enable();;
     this.isValid = true;
   }
 

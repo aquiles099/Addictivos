@@ -12,7 +12,7 @@ import { DealService } from 'projects/ngx-admin/src/service/deal.service';
 })
 export class TableDealsComponent {
 
-displayedColumns: string[] = ['img','short_title', 'effective_date', 'is_public','acciones'];
+displayedColumns: string[] = ['img','short_title', 'effective_date', 'is_public','actions'];
 dataSource: MatTableDataSource<DealModelResponse>;
 
 @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;

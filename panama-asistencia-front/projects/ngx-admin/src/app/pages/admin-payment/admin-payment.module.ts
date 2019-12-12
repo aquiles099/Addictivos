@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NbAuthModule } from '@nebular/auth';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PaymentService } from 'projects/ngx-admin/src/service/payment.service';
-//import { NgxLoadingModule } from 'ngx-loading';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
 
@@ -37,7 +37,7 @@ import { PaymentService } from 'projects/ngx-admin/src/service/payment.service';
     NbToastrModule,
     FlexLayoutModule,
     ReactiveFormsModule,
-    //NgxLoadingModule,
+    NgxLoadingModule,
     MatFormFieldModule,
     MatTableModule,
     MatPaginatorModule,

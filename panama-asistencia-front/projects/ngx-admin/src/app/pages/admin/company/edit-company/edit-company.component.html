@@ -39,8 +39,7 @@
                         </div>
                         <div class="form-control-group" fxFlex="50%">
                             <label class="label" for="input-web_site">Dirección</label>
-                            <input nbInput fullWidth formControlName="address" placeholder="{{ company.address }}"
-                                name="address">
+                            <input nbInput fullWidth formControlName="address" placeholder="{{ company.address }}" name="address">
                         </div>
                     </div>
 
@@ -59,8 +58,15 @@
                     <div fxLayout="row" fxLayout.xs="column">
                         <div class="form-control-group" fxFlex="50%">
                             <label class="label" for="input-logo">Logo</label>
-                            <input nbInput fullWidth formControlName="logo" placeholder="{{ company.logo }}"
-                                name="logo">
+                            <input nbInput fullWidth formControlName="logo" placeholder="{{ company.logo }}" name="logo">
+                        </div>
+                        <div class="form-control-group" fxFlex="50%">
+                            <label class="label" for="input-user-id">Usuario Asociado</label>
+                            <nb-select placeholder="Usuario Asociado" formControlName="user_id">
+                                <nb-option *ngFor="let user of users" value="{{ user.id }}">{{ user.name }} {{
+                                    user.last_name }}
+                                </nb-option>
+                            </nb-select>
                         </div>
                     </div>
 

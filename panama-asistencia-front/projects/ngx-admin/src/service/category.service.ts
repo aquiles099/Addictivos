@@ -71,7 +71,7 @@ export class CategoryService extends BaseService {
                 }, 3000);
             },
             (error) => {
-                console.log(error); 
+                console.log(error);
                 this.showToast("danger", "Ups Sucedio Algo", "Esta categoría no se ha podido eliminar. Intente de nuevo");
             }
         );

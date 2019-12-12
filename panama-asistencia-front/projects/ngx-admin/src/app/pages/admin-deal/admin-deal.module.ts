@@ -22,7 +22,7 @@ import {
   
   
 } from '@nebular/theme';
-import { MatFormFieldModule, MatTableModule, MatPaginatorModule, MatInput, MatInputModule } from '@angular/material';
+import { MatFormFieldModule, MatTableModule, MatPaginatorModule, MatInput, MatInputModule, MatMenuModule, MatIconModule } from '@angular/material';
 
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -36,6 +36,7 @@ import { ComerceService } from '../../../service/comerce.service';
 import { CategoryService } from 'projects/ngx-admin/src/service/category.service';
 import { TableOptionsComponent } from './pricing-options/table-pricing-options/table-options.component';
 import { FormOptionsComponent } from './pricing-options/form-pricing-options/form-options.component';
+import { PriceOptionService } from 'projects/ngx-admin/src/service/price_option.service';
 
 
 
@@ -65,10 +66,11 @@ import { FormOptionsComponent } from './pricing-options/form-pricing-options/for
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
+    MatIconModule,
+    MatMenuModule,
     OwlDateTimeModule, 
     OwlNativeDateTimeModule
     
-  
   ],
   declarations: [
     AdminDealComponent,
@@ -81,7 +83,8 @@ import { FormOptionsComponent } from './pricing-options/form-pricing-options/for
     DealService,
     CompanyService,
     ComerceService,
-    CategoryService
+    CategoryService,
+    PriceOptionService
     
     
   ],
