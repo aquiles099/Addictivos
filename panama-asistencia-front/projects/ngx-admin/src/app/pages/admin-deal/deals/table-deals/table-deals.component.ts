@@ -15,7 +15,7 @@ export class TableDealsComponent {
 displayedColumns: string[] = ['img','short_title', 'effective_date', 'is_public','actions'];
 dataSource: MatTableDataSource<DealModelResponse>;
 
-@ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild(MatSort, {static: true}) sort: MatSort;
 
 public dealsList: Array<DealModelResponse>;
@@ -25,7 +25,7 @@ constructor(private dealService: DealService) {
 }
 
 ngOnInit(): void {
-  
+  console.log("paginator:",this.paginator);
 }
 
 applyFilter(filterValue: string) {

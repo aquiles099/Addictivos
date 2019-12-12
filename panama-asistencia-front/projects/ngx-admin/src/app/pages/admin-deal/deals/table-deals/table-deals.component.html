@@ -9,14 +9,12 @@
         </div>
     </div>
   </nb-card-header>
-
-  <nb-card-body> 
       <nb-card-body>
           <mat-form-field *ngIf="dealsList.length > 0 ">
               <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar.. ">
             </mat-form-field>
             
-            <div class="mat-elevation-z8" *ngIf="dealsList.length > 0 ">
+            <div class="mat-elevation-z8">
               <table mat-table [dataSource]="dataSource" matSort>                   
                 <ng-container matColumnDef="img">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> Imagen </th>
@@ -69,10 +67,8 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;">
                 </tr>
               </table>
-            
               <mat-paginator itemsPerPageLabel="Ver por página" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
             </div>
       </nb-card-body>   
-  </nb-card-body>
 
 </nb-card>

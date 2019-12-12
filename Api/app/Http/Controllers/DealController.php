@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Deal;
 use App\Models\ImagesDeal;
 use App\Models\Category;
+use App\Models\DealType;
 use Illuminate\Http\Request;
 use App\Helpers\HStatusHttp;
 use App\Helpers\HPath;
@@ -48,9 +49,9 @@ class DealController extends Controller
             }   
         }
         
-        // if( $validator_result = $this->validateData( $request, Deal::rules(), trans('validation') )) {
-            // return $validator_result;  
-        // }
+        if( $validator_result = $this->validateData( $request, Deal::rules(), trans('validation') )) {
+         return $validator_result;  
+        }
 
         $deal_data = [
             'short_title' => $request->short_title,
@@ -62,8 +63,6 @@ class DealController extends Controller
             'short_description' => $request->short_description,
             'long_description' => $request->long_description,
             'restrictions' => $request->restrictions,
-            'commerce_id' => $request->commerce_id,
-            'category_id' => $request->category_id,
             'slug' => '',
             'closing_date' => $request->closing_date,
             'is_public' => $request->is_public,
@@ -74,10 +73,12 @@ class DealController extends Controller
             'images_deal' => 1,
             //'images_deal' => $request->images_deal,
             'payment_type' => $request->payment_type,
-            'deal_type_id' => $request->deal_type_id,
             'commission' => $request->commission,
             'seller_id' => 1,
-            'company_id' => $request->company_id
+            'deal_type_id' => $request->deal_type_id,
+            'company_id' => $request->company_id,
+            'commerce_id' => $request->commerce_id,
+            'category_id' => $request->category_id
         ];
         $images = [];
         if($request->main_image){
@@ -230,6 +231,20 @@ class DealController extends Controller
                 'message' => trans('deal.deleted')
             ]
         ]);
+    }
+
+    public function types(){
+        $types = DealType::select('id','name')
+        ->get();
+
+        $data = [
+            'code' => HStatusHttp::OK,
+            'data' => [
+                'types' => $types
+            ]
+        ];
+        
+        return response()->json($data);
     }
 
 }

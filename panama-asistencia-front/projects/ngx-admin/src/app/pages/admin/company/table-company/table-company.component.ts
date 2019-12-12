@@ -34,7 +34,7 @@ export class TableCompanyComponent {
   }
 
   ngOnInit() {
-
+    console.log("paginator:",this.paginator);
   }
 
   applyFilter(filterValue: string) {
