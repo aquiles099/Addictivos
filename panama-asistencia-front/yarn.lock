@@ -1839,10 +1839,10 @@ circular-json@^0.3.1:
   resolved "https://registry.npm.taobao.org/circular-json/download/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
   integrity sha1-gVyZ6oT2gJUp0vRXkb34JxE1LWY=
 
-ckeditor@4.7.3:
-  version "4.7.3"
-  resolved "https://registry.npm.taobao.org/ckeditor/download/ckeditor-4.7.3.tgz#b486fb9eb91af9532a0acfaea4a55374970254d5"
-  integrity sha1-tIb7nrka+VMqCs+upKVTdJcCVNU=
+ckeditor@4.12.1:
+  version "4.12.1"
+  resolved "https://registry.yarnpkg.com/ckeditor/-/ckeditor-4.12.1.tgz#954a7b028dd611e44ba51cc7c2fe051cf1052186"
+  integrity sha512-pH2Su4oi0D4iN/3U8nUcwI7/lXHoOJi0aiN8e2zxnm4Ow5kq8eZP2ZGmpYyuqRyKZ2tHaU8+OyYi7laXcjiq9Q==
 
 class-utils@^0.3.5:
   version "0.3.6"
