@@ -1,4 +1,5 @@
 export class DealModelResponse {
+  id:any;
   short_title: string;
   long_title: string;
   estado: string;

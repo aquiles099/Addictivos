@@ -37,6 +37,7 @@ import { CategoryService } from 'projects/ngx-admin/src/service/category.service
 import { TableOptionsComponent } from './pricing-options/table-pricing-options/table-options.component';
 import { FormOptionsComponent } from './pricing-options/form-pricing-options/form-options.component';
 import { PriceOptionService } from 'projects/ngx-admin/src/service/price_option.service';
+import { EditDealComponent } from './deals/edit-deal/edit-deal.component';
 
 
 
@@ -77,7 +78,8 @@ import { PriceOptionService } from 'projects/ngx-admin/src/service/price_option.
     FormDealsComponent,
     TableDealsComponent,
     TableOptionsComponent,
-    FormOptionsComponent
+    FormOptionsComponent,
+    EditDealComponent
   ],
   providers: [
     DealService,

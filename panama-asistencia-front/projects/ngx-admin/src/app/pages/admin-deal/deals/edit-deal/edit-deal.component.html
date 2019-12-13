@@ -1,24 +1,42 @@
 <nb-card class="col-md-12 col-lg-12 col-xxxl-12">
-  <nb-card-header>Nueva Oferta</nb-card-header>
+    <nb-card-header>
+      <div class="row">
+            <div class="col-md-6">
+                <h6>EDITAR OFERTA</h6>
+            </div>
+            <div class="col-md-6 text-right">
+                <button nbButton (click)="enableEdit()">Editar
+                    <nb-icon icon="edit-2-outline"></nb-icon>
+                </button>
+            </div>
+      </div>
+    </nb-card-header>
 
-  <form [formGroup]="dealForm" >
   <nb-card-body>
+  <form (ngSubmit)="editDeal()"  [formGroup]="editForm" >
       <nb-stepper orientation="horizontal">
         <nb-step label="Descripción">
             <div class="row">
               <div class="col-lg-12">
                 <label class="label" for="input-email">Titulo Corto:</label>
-                <input type="text" nbInput fullWidth placeholder="Titulo corto" formControlName="short_title">
+                <input type="text" nbInput fullWidth formControlName="short_title" placeholder="{{ deal.short_title }}" name="short_title">
                 <label class="label" for="input-email">Titulo Largo:</label>
-                <input type="text" nbInput fullWidth placeholder="Titulo largo" formControlName="long_title">
+                <input type="text" nbInput fullWidth placeholder="{{ deal.long_title }}" name="long_title" formControlName="long_title">
                 <label class="label" for="input-email">Titulo de Regalo:</label>
-                <input type="text" nbInput fullWidth placeholder="Titulo de Regalo" formControlName="gift_title">
+                <input type="text" nbInput fullWidth placeholder="{{ deal.gift_title }}" name="gift_title" formControlName="gift_title">
                 <label class="label" for="input-email">Descripción Corta:</label>
-                <input type="text" nbInput fullWidth placeholder="Descripcion corta" formControlName="short_description">
+                <input type="text" nbInput fullWidth placeholder="{{ deal.short_description }}" name="short_description"  formControlName="short_description">
                 <label class="label" for="input-email">Descripcion Larga:</label>
-                <ckeditor [config]="{ extraPlugins: 'divarea', height: '200' }" formControlName="long_description" ></ckeditor>
-                <label class="label" for="input-email">Restricciones:</label>
-                <ckeditor [config]="{ extraPlugins: 'divarea', height: '200' }" formControlName="restrictions"   ></ckeditor>
+                <div *ngIf="ckEditorReadOnly">                  
+                  <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:true }"  name="long_description" formControlName="long_description" ></ckeditor>
+                  <label class="label" for="input-email">Restricciones:</label>
+                  <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:true }" name="restrictions" formControlName="restrictions"    ></ckeditor>
+                </div>
+                <div *ngIf="!ckEditorReadOnly">                  
+                  <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:false }"  name="long_description" formControlName="long_description" ></ckeditor>
+                  <label class="label" for="input-email">Restricciones:</label>
+                  <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:false }" name="restrictions" formControlName="restrictions"    ></ckeditor>
+                </div>
               </div>
             </div>
             
@@ -33,7 +51,7 @@
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label class="label" for="input-name">Comercio:</label>
-                        <nb-select placeholder="Comercio" fullWidth formControlName="commerce_id">
+                        <nb-select  placeholder="Comercio" fullWidth formControlName="commerce_id">
                             <nb-option value='{{comerce.id}}' *ngFor='let comerce of comerces'>{{comerce.name}}</nb-option>
                         </nb-select>
                     </div>
@@ -42,7 +60,7 @@
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label class="label" for="input-name">Categoria:</label>
-                        <nb-select placeholder="Categoria" fullWidth formControlName="category_id">
+                        <nb-select  placeholder="Categoria" fullWidth formControlName="category_id">
                             <nb-option value='{{category.id}}'  *ngFor='let category of categorys'>{{category.title}}</nb-option>
                         </nb-select>
                     </div>
@@ -51,7 +69,7 @@
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label class="label" for="input-name">Compañia:</label>
-                        <nb-select placeholder="Compañia" fullWidth formControlName="company_id">
+                        <nb-select  placeholder="Compañia" fullWidth formControlName="company_id">
                             <nb-option value='{{company.id}}'  *ngFor='let company of companys'>{{company.business_name}}</nb-option>
                         </nb-select>
                     </div>
@@ -65,7 +83,7 @@
                 <div class="full-name-inputs">              
                   <div class="form-group">
                     <label class="label" for="input-date">Fecha Inicio:</label>
-                    <input [owlDateTime]="dt2" placeholder="Fecha Inicio" nbInput fullWidth formControlName="effective_date">
+                    <input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" [(ngModel)]="effectiveDateSelected" placeholder="Fecha Inicio" nbInput fullWidth formControlName="effective_date">
                     <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
                     <owl-date-time #dt2 pickerMode="dialog"></owl-date-time>
                   </div>
@@ -74,15 +92,15 @@
     
                   <div class="form-group">
                     <label class="label" for="input-date">Fecha Final:</label>
-                    <input [owlDateTime]="dt3" placeholder="Fecha Final" nbInput fullWidth formControlName="closing_date">
+                    <input [owlDateTime]="dt3" [owlDateTimeTrigger]="dt3" [(ngModel)]="closingDateSelected"  placeholder="Fecha Final" nbInput fullWidth formControlName="closing_date">
                     <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
-                    <owl-date-time [(ngModel)]="dt3" pickerMode="dialog" ></owl-date-time>
+                    <owl-date-time #dt3 pickerMode="dialog" ></owl-date-time>
                     
                   </div>
 
                   <div class="form-group">
                       <label class="label" for="input-date">Fecha limite:</label>
-                      <input [owlDateTime]="dt4" placeholder="Fecha limite" nbInput fullWidth formControlName="available_until">
+                      <input [owlDateTime]="dt4" [owlDateTimeTrigger]="dt4" [(ngModel)]="availableUntilSelected" placeholder="Fecha limite" nbInput fullWidth formControlName="available_until">
                       <span [owlDateTimeTrigger]="dt4"><i class="fa fa-calendar"></i></span>
                       <owl-date-time #dt4 pickerMode="dialog" ></owl-date-time>
                     
@@ -97,7 +115,7 @@
 
                     <div class="form-group">
                         <label class="label" for="input-name">Publica:</label>
-                        <nb-select placeholder="Publica"  fullWidth formControlName="is_public">
+                        <nb-select  placeholder="Publica"  fullWidth formControlName="is_public">
                             <nb-option value="0">No</nb-option>
                             <nb-option value="1">Si</nb-option>
                           </nb-select>
@@ -105,17 +123,17 @@
 
                     <div class="form-group">
                         <label class="label" for="input-name">Tipo de Pago:</label>
-                        <nb-select placeholder="Publica"  fullWidth formControlName="payment_type">
+                        <nb-select  placeholder="Seleccione el tipo de pago"  fullWidth formControlName="payment_type">
                             <nb-option value="0">TDC</nb-option>
                             <nb-option value="1">Credito</nb-option>
                             <nb-option value="2">Ambas</nb-option>
                           </nb-select>
                     </div>
 
-                    <div class="form-group">
-                        <label class="label" for="input-name">Tipo :</label>
-                        <nb-select placeholder="Seleccione Tipo" fullWidth formControlName="deal_type_id">
-                            <nb-option value='{{type.id}}'  *ngFor='let type of types'>{{type.name}}</nb-option>
+                    <div class="form-group" *ngIf="dealTypeSelected.id">
+                        <label class="label" for="input-name">Tipo:</label>
+                        <nb-select placeholder="Seleccione el tipo" formControlName="deal_type_id">
+                             <nb-option [(value)]='type.id'  ngFor='let type of types' >{{type.name}} </nb-option>
                         </nb-select>
                     </div>
 
@@ -124,9 +142,11 @@
            
                 </div>
               </div>
-    
-          <button nbButton nbStepperPrevious>Anterior</button>
-          <button nbButton nbStepperNext>Siguiente</button>
+            <div class="text-center p-2">
+              
+              <button nbButton nbStepperPrevious>Anterior</button>
+              <button nbButton nbStepperNext>Siguiente</button>
+            </div>
         </nb-step>
 
         <nb-step label="Imagen">
@@ -136,12 +156,12 @@
               </div>
           
               <div class="text-center p-2">
-                  <button nbButton (click)="saveDeal()" >Guardar</button>
+                  <button nbButton status="primary" [disabled]="!editForm.invalid">Guardar</button>
               </div>
         </nb-step>
      
       </nb-stepper>
-    </nb-card-body>
     </form>  
+    </nb-card-body>
 </nb-card>
 

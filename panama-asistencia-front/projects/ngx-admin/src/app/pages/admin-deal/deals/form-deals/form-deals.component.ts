@@ -27,27 +27,14 @@ import * as moment from "moment";
 })
 export class FormDealsComponent {
   formData = new FormData();
+  dealForm: FormGroup;
   // upload
   fileData: File = null;
 
-  dealForm: FormGroup;
   comerces:any[] = [];
   categorys:any[] = [];
   companys:any[] = [];
   types:any[]=[]
-  private dealRequest: DealResquestModel;
-  constructor(private router: Router,
-              private fb: FormBuilder, 
-              private dealService: DealService, 
-              private toastrService: NbToastrService,
-              private comerce_service: ComerceService,
-              private category_service: CategoryService,
-              private company_service: CompanyService,
-              
-              ) {
-
-  }
-
   config: ToasterConfig;
 
   index = 1;
@@ -61,7 +48,18 @@ export class FormDealsComponent {
   title = 'Oops Hemos hecho algo mal';
   content = `Oferta no se puede crear por falta de imagen!`;
 
+  private dealRequest: DealResquestModel;
+  constructor(private router: Router,
+              private fb: FormBuilder, 
+              private dealService: DealService, 
+              private toastrService: NbToastrService,
+              private comerce_service: ComerceService,
+              private category_service: CategoryService,
+              private company_service: CompanyService,
+              
+              ) {
 
+  }
   ngOnInit() {
     this.dealForm = this.fb.group({
       short_title: ['', Validators.required],

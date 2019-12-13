@@ -80,8 +80,8 @@ class Deal extends Model
     public static function getDeals() {
         $deals = Deal::from('deals as d')
             ->select('d.id','d.short_title', 'd.long_title', 'd.effective_date', 'd.deal_total_limit', 'user_purchase_limit',
-                'short_description', 'long_description', 'restrictions', 'category_id', 'closing_date', 'is_public', 'available_until',
-                'gift_title', 'user_gift_limit', 'discount', 'payment_type', 'commission', 'images_deals_id'
+                'short_description', 'long_description', 'restrictions', 'closing_date', 'is_public', 'available_until',
+                'gift_title', 'user_gift_limit', 'discount', 'payment_type', 'commission', 'images_deals_id', 'category_id','company_id','commerce_id','deal_type_id'
             )
             ->get();
             

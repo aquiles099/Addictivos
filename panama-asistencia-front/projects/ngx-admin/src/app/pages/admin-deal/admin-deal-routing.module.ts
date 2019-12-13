@@ -4,9 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminDealComponent } from './admin-deal.component';
 import { FormDealsComponent } from './deals/form-deals/form-deals.component';
 import { TableDealsComponent } from './deals/table-deals/table-deals.component';
+import { EditDealComponent } from './deals/edit-deal/edit-deal.component';
 import { TableOptionsComponent } from './pricing-options/table-pricing-options/table-options.component';
 import { FormOptionsComponent } from './pricing-options/form-pricing-options/form-options.component';
-
 
 const routes: Routes = [
   {
@@ -31,6 +31,10 @@ const routes: Routes = [
         path: 'table-option-create',
         component: FormOptionsComponent,
       },
+       {
+           path: 'edit-deal',
+           component: EditDealComponent
+       },
     ],
   },
 ];
