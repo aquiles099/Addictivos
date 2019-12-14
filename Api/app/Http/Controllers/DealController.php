@@ -247,4 +247,30 @@ class DealController extends Controller
         return response()->json($data);
     }
 
+    public function dealsCliente(){
+        $now = date('Y-m-d');
+        $deals = Deal::where('effective_date','<',$now)
+            ->where('closing_date','>',$now)
+            ->where('is_public',1)
+            ->whereHas('optionPricings',function($query){
+                $query->wherenotnull('deal_id');
+            })
+            ->select(
+                'id','short_title','long_title','effective_date', 
+                'deal_total_limit','user_purchase_limit','short_description',
+                'long_description', 'restrictions', 'closing_date', 'is_public', 
+                'available_until','gift_title', 'user_gift_limit', 'discount', 
+                'payment_type', 'commission', 'images_deals_id', 'category_id',
+                'company_id','commerce_id','deal_type_id')
+            ->get();
+        $data = [
+            'code' => HStatusHttp::OK,
+            'data' => [
+                'deals' => $deals
+            ]
+        ];        
+        return response()->json($data);
+    }
+    
+
 }

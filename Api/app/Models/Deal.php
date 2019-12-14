@@ -77,6 +77,13 @@ class Deal extends Model
         return $this->hasMany(optionPricing::class);
     }
 
+    
+
+    public function Commerce()
+    {
+        return $this->BelongsTo(Commerce::class);
+    }
+
     public static function getDeals() {
         $deals = Deal::from('deals as d')
             ->select('d.id','d.short_title', 'd.long_title', 'd.effective_date', 'd.deal_total_limit', 'user_purchase_limit',
@@ -91,11 +98,6 @@ class Deal extends Model
         }
 
         return $deals;
-    }
-
-    public function Commerce()
-    {
-        return $this->BelongsTo(Commerce::class);
     }
 
 

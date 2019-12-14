@@ -30,6 +30,7 @@ Route::group([
 ], function ($router) {
  
 Route::get('deals', 'DealController@index');
+Route::get('deals_cliente', 'DealController@dealsCliente');
 Route::get('types', 'DealController@types');
 Route::post('create', 'DealController@prepareCreateOrUpdateData');
 Route::post('{id}', 'DealController@prepareCreateOrUpdateData');
