@@ -66,6 +66,7 @@ Route::group([
 ], function ($router) {
  
     Route::get('users', 'UserController@index');
+    Route::get('purchases/{id}', 'UserController@purchases');
     Route::post('create', 'UserController@prepareCreateOrUpdateData');
     Route::patch('{id}', 'UserController@prepareCreateOrUpdateData');
     Route::get('{id}', 'UserController@get');

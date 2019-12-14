@@ -201,4 +201,18 @@ class UserController extends Controller
             ]
         ]);
     }
+    public function purchases($user_id)
+    {
+        $user = User::with('purchases')->find($user_id);
+        
+        $data = [
+            'code' => HStatusHttp::OK,
+            'data' => [
+                'user' => $user
+            ]
+        ];
+        
+        return response()->json($data);
+    }
+
 }

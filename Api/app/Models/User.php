@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Validation\Rule;
+use App\Models\Purchase;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -117,11 +118,15 @@ class User extends Authenticatable implements JWTSubject
 
     public static function getRoleFromUser($user) {
         $role = Role::query()
-        ->join('role_users', 'role_users.role_id', '=', 'roles.id')
-        ->where('role_users.user_id', '=', $user->id)
-        ->select('roles.name')
-        ->first();
+            ->join('role_users', 'role_users.role_id', '=', 'roles.id')
+            ->where('role_users.user_id', '=', $user->id)
+            ->select('roles.name')
+            ->first();
         
         return $role->name;
+    }
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
     }
 }
