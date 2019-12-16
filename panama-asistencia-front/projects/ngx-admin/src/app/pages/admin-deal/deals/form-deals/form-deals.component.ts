@@ -212,6 +212,46 @@ export class FormDealsComponent {
   }
   fileProgress(fileInput: any) {
     this.fileData = <File>fileInput.target.files[0];
+    // Only process image files.
+      let errorMsj: string = "";
+      if (!this.fileData.type.match("image.*")) {
+        errorMsj +=
+          "<div type='alert' class='invalid-feedback d-block'>Formato no permitido</div>";
+        return;
+      }
+      let reader = new FileReader();
+      // Closure to capture the file information.
+      reader.onload = function(theFile: Event) {
+        var image = new Image();
+        image.src = `${reader.result}`;
+        image.onload = function() {
+          // access image size here
+
+          if (image.width < 540 || image.height < 340) {
+            if (image.width < 540) {
+              errorMsj +=
+                "<div type='alert' class='invalid-feedback d-block'>El ancho mínimo de la imagen debe ser de : 540  px</div>" +
+                "<div type='alert' class='invalid-feedback d-block'>Ancho de la imagen: " +
+                image.width +
+                " px </div>";
+            }
+            if (image.height < 340) {
+              errorMsj +=
+                "<div type='alert' class='invalid-feedback d-block'>El alto mínimo de la imagen debe ser de : 340  px</div>" +
+                "<div type='alert' class='invalid-feedback d-block'>Alto de la imagen: " +
+                image.height +
+                " px</div>";
+            }
+            document.getElementById("file-errors").style.display = "block";
+            document.getElementById("file-errors").innerHTML = errorMsj;
+            document.getElementById("save-btn").disabled = true;
+          }else{
+            document.getElementById("save-btn").disabled = false;
+            document.getElementById("file-errors").style.display = "none";
+          }
+        };
+      };
+      reader.readAsDataURL(this.fileData);
   }
 
 }

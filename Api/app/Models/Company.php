@@ -18,14 +18,14 @@ class Company extends Model
     ];
 
 
-    public static function rules () {
+    public static function rules ($method) {
     
     return [
         'business_name'    => 'required',
         'dni'              => 'required',
         'address'          => 'required',
         'email'            => 'required',
-        'logo'             => 'required',
+        'logo'             =>  $method=='POST'?'required':'',
         'description'      => 'required',
         'phone'            => 'required',
         'user_id'          => 'required'

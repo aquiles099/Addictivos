@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Validation\Rule;
+use App\Models\Purchase;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -49,7 +50,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public static function rules ($user_id) {
+    public static function rules ($user_id,$method) {
         return [
             'name' => 'required|string',
             'last_name' => 'required|string',
@@ -62,15 +63,15 @@ class User extends Authenticatable implements JWTSubject
             'dni' => [
                 'required',
                 'string',
-                Rule::unique('users')->ignore($user_id)
+                $method=='POST'?Rule::unique('users')->ignore($user_id):''
             ],
-            'avatar_file_name' => 'image',
+            'avatar_file_name' => $method=='POST'?'image':'',
             'phone' => 'required|string',
             'username' => 'required|string',
             'address' => 'required|string',
             'policy' => [
                 'required',
-                Rule::unique('users')->ignore($user_id)
+                $method=='POST'?Rule::unique('users')->ignore($user_id):''
             ],
             'policy_date_end' => 'date'
         ];
@@ -117,11 +118,15 @@ class User extends Authenticatable implements JWTSubject
 
     public static function getRoleFromUser($user) {
         $role = Role::query()
-        ->join('role_users', 'role_users.role_id', '=', 'roles.id')
-        ->where('role_users.user_id', '=', $user->id)
-        ->select('roles.name')
-        ->first();
+            ->join('role_users', 'role_users.role_id', '=', 'roles.id')
+            ->where('role_users.user_id', '=', $user->id)
+            ->select('roles.name')
+            ->first();
         
         return $role->name;
+    }
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
     }
 }

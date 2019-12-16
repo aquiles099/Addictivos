@@ -10,6 +10,7 @@ use App\Jobs\GetImages;
 use App\Jobs\SaveImage;
 use App\Models\User;
 use App\Models\RoleUser;
+use App\Models\Role;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Register;
 
@@ -51,7 +52,7 @@ class UserController extends Controller
             }   
         }
         
-        if( $validator_result = $this->validateData( $request, User::rules($user_id), trans('validation') )) {
+        if( $validator_result = $this->validateData( $request, User::rules($user_id,$request->method()), trans('validation') )) {
           return $validator_result;  
         }
 
@@ -67,7 +68,9 @@ class UserController extends Controller
             'policy' => $request->policy,
             'avatar_file_name' => $user_id ? $user->avatar_file_name : ''
         ];
-
+        if(gettype($request->role)=="string"){
+          $request->role = (Role::where('name',$request->role)->first())["id"];
+        }
         $role_user_data = [
             'user_id' => $user_id ? $user_id : null,
             'role_id' => $request->role ? $request->role : HRole::CLIENTE
@@ -201,4 +204,18 @@ class UserController extends Controller
             ]
         ]);
     }
+    public function purchases($user_id)
+    {
+        $user = User::with('purchases')->find($user_id);
+        
+        $data = [
+            'code' => HStatusHttp::OK,
+            'data' => [
+                'user' => $user
+            ]
+        ];
+        
+        return response()->json($data);
+    }
+
 }
