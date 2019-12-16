@@ -43,7 +43,7 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        if( $validator_response =$this->validateData( $request, Company::rules(), trans('validation') ) ) {
+        if( $validator_response =$this->validateData( $request, Company::rules($request->method()), trans('validation') ) ) {
             return $validator_response;
         }
  

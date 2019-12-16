@@ -50,7 +50,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public static function rules ($user_id) {
+    public static function rules ($user_id,$method) {
         return [
             'name' => 'required|string',
             'last_name' => 'required|string',
@@ -63,15 +63,15 @@ class User extends Authenticatable implements JWTSubject
             'dni' => [
                 'required',
                 'string',
-                Rule::unique('users')->ignore($user_id)
+                $method=='POST'?Rule::unique('users')->ignore($user_id):''
             ],
-            'avatar_file_name' => 'image',
+            'avatar_file_name' => $method=='POST'?'image':'',
             'phone' => 'required|string',
             'username' => 'required|string',
             'address' => 'required|string',
             'policy' => [
                 'required',
-                Rule::unique('users')->ignore($user_id)
+                $method=='POST'?Rule::unique('users')->ignore($user_id):''
             ],
             'policy_date_end' => 'date'
         ];
