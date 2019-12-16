@@ -76,15 +76,15 @@
                     <label class="label" for="input-date">Fecha Final:</label>
                     <input [owlDateTime]="dt3" placeholder="Fecha Final" nbInput fullWidth formControlName="closing_date">
                     <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
-                    <owl-date-time [(ngModel)]="dt3" pickerMode="dialog" ></owl-date-time>
+                    <owl-date-time #dt3 pickerMode="dialog"></owl-date-time>
                     
                   </div>
 
                   <div class="form-group">
                       <label class="label" for="input-date">Fecha limite:</label>
-                      <input [owlDateTime]="dt4" placeholder="Fecha limite" nbInput fullWidth formControlName="available_until">
-                      <span [owlDateTimeTrigger]="dt4"><i class="fa fa-calendar"></i></span>
-                      <owl-date-time #dt4 pickerMode="dialog" ></owl-date-time>
+                      <input [owlDateTime]="dt4" placeholder="Fecha limite" nbInput fullWidth formControlName="available_until"> 
+                      <span [owlDateTimeTrigger]="dt4"><i class="fa fa-calendar"></i></span> 
+                      <owl-date-time #dt4 pickerMode="dialog" ></owl-date-time> 
                     
                   </div>
                 </div>
@@ -130,13 +130,14 @@
         </nb-step>
 
         <nb-step label="Imagen">
-            <div class="form-group">
+              <div class="form-group">
                 <label class="label" for="input-email">Imagen de la Oferta:</label>
                 <input type="file" nbInput fullWidth (change)="fileProgress($event)">
               </div>
-          
+                <nb-alert outline="danger" role="alert" id="file-errors" style="display:none;"></nb-alert>
+
               <div class="text-center p-2">
-                  <button nbButton (click)="saveDeal()" >Guardar</button>
+                  <button nbButton (click)="saveDeal()" id="save-btn">Guardar</button>
               </div>
         </nb-step>
      

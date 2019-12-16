@@ -19,7 +19,7 @@ import {
   NbRadioModule,
   NbDatepickerModule,
   NbIconModule,
-  
+  NbAlertModule
   
 } from '@nebular/theme';
 import { MatFormFieldModule, MatTableModule, MatPaginatorModule, MatInput, MatInputModule, MatMenuModule, MatIconModule } from '@angular/material';
@@ -62,6 +62,7 @@ import { EditDealComponent } from './deals/edit-deal/edit-deal.component';
     NbRadioModule,
     NbDatepickerModule,
     NbIconModule,
+    NbAlertModule.
     CKEditorModule,
     MatFormFieldModule,
     MatTableModule,

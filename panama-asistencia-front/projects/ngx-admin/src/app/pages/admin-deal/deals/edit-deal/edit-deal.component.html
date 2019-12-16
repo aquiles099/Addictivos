@@ -154,9 +154,9 @@
                 <label class="label" for="input-email">Imagen de la Oferta:</label>
                 <input type="file" nbInput fullWidth (change)="fileProgress($event)">
               </div>
-          
+              <nb-alert outline="danger" role="alert" id="file-errors" style="display:none;"></nb-alert>          
               <div class="text-center p-2">
-                  <button nbButton status="primary" [disabled]="!editForm.invalid">Guardar</button>
+                  <button nbButton status="primary" [disabled]="!editForm.invalid" id="save-btn">Guardar</button>
               </div>
         </nb-step>
      
