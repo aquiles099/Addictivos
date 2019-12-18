@@ -1,0 +1,416 @@
+{
+	"id": "6ef136f6-bafe-49e2-8295-df97ed562281",
+	"name": "addictivos",
+	"description": null,
+	"auth": null,
+	"events": null,
+	"variables": null,
+	"order": [],
+	"folders_order": [
+		"fe36f34b-067a-430e-a4d3-bc80d6f27826",
+		"a32bb30d-bcca-4ab8-845d-cc649d5d461b",
+		"188fa5c9-83b4-4a11-a54c-0bf77635e019"
+	],
+	"folders": [
+		{
+			"id": "fe36f34b-067a-430e-a4d3-bc80d6f27826",
+			"name": "deals",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "6ef136f6-bafe-49e2-8295-df97ed562281",
+			"folder": null,
+			"order": [
+				"b1e56912-6283-4810-bfa0-d8500d9457ee",
+				"b2e83c4e-90aa-4e3b-ba9d-b3928b108fae"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "188fa5c9-83b4-4a11-a54c-0bf77635e019",
+			"name": "purchases",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "6ef136f6-bafe-49e2-8295-df97ed562281",
+			"folder": null,
+			"order": [
+				"694822f1-c5a9-420f-bcde-e22e8525aad8"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "a32bb30d-bcca-4ab8-845d-cc649d5d461b",
+			"name": "users",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "6ef136f6-bafe-49e2-8295-df97ed562281",
+			"folder": null,
+			"order": [
+				"10cb8935-3123-4717-8466-4d6f1c0a914f"
+			],
+			"folders_order": []
+		}
+	],
+	"requests": [
+		{
+			"id": "10cb8935-3123-4717-8466-4d6f1c0a914f",
+			"name": "compras aprobadas por user_id",
+			"url": "localhost:8000/api/user/purchases/1/approved/",
+			"description": "",
+			"data": null,
+			"dataMode": "params",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "a32bb30d-bcca-4ab8-845d-cc649d5d461b",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "694822f1-c5a9-420f-bcde-e22e8525aad8",
+			"name": "filtrado por status y fechas",
+			"url": "localhost:8000/api/purchase/purchases/bystatusanddates",
+			"description": "",
+			"data": [
+				{
+					"key": "status",
+					"value": "0",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "startDate",
+					"value": "2019-12-18 00:00:00",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "endDate",
+					"value": "2019-12-19 00:00:00",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"headerData": [],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "188fa5c9-83b4-4a11-a54c-0bf77635e019",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "b1e56912-6283-4810-bfa0-d8500d9457ee",
+			"name": "registrar",
+			"url": "http://localhost:8000/api/deal/create",
+			"description": "",
+			"data": [
+				{
+					"key": "short_title",
+					"value": "short_title",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "long_title",
+					"value": "long_title",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "effective_date",
+					"value": "2019-11-27 13:23:53",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "short_description",
+					"value": "short_description",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "long_description",
+					"value": "long_description",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "restrictions",
+					"value": "restrictions",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "commerce_id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "category_id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "closing_date",
+					"value": "2019-11-27 13:23:53",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "is_public",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "available_until",
+					"value": "2019-11-27 13:23:53",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "gift_title",
+					"value": "gift_title",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "payment_type",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "deal_type_id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "commission",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "company_id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "main_image",
+					"value": "",
+					"description": "",
+					"type": "file",
+					"enabled": true
+				},
+				{
+					"key": "images[0]",
+					"value": "",
+					"description": "",
+					"type": "file",
+					"enabled": true
+				},
+				{
+					"key": "images[1]",
+					"value": "",
+					"description": "",
+					"type": "file",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"headerData": [],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "fe36f34b-067a-430e-a4d3-bc80d6f27826",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "b2e83c4e-90aa-4e3b-ba9d-b3928b108fae",
+			"name": "actualizar",
+			"url": "http://localhost:8000/api/deal/11",
+			"description": "",
+			"data": [
+				{
+					"key": "short_title",
+					"value": "short_title",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "long_title",
+					"value": "long_title",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "effective_date",
+					"value": "2019-11-27 13:23:53",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "short_description",
+					"value": "short_description",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "long_description",
+					"value": "long_description",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "restrictions",
+					"value": "restrictions",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "commerce_id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "category_id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "closing_date",
+					"value": "2019-11-27 13:23:53",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "is_public",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "available_until",
+					"value": "2019-11-27 13:23:53",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "gift_title",
+					"value": "gift_title",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "payment_type",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "deal_type_id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "commission",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "company_id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "main_image",
+					"value": "",
+					"description": "",
+					"type": "file",
+					"enabled": true
+				},
+				{
+					"key": "images[0]",
+					"value": "",
+					"description": "",
+					"type": "file",
+					"enabled": false
+				},
+				{
+					"key": "images[1]",
+					"value": "",
+					"description": "",
+					"type": "file",
+					"enabled": false
+				}
+			],
+			"dataMode": "params",
+			"headerData": [],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "fe36f34b-067a-430e-a4d3-bc80d6f27826",
+			"headers": "",
+			"pathVariables": {}
+		}
+	]
+}

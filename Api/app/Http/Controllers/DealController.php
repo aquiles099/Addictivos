@@ -50,7 +50,7 @@ class DealController extends Controller
         }
         
         if( $validator_result = $this->validateData( $request, Deal::rules(), trans('validation') )) {
-         return $validator_result;  
+            return $validator_result;  
         }
 
         $deal_data = [

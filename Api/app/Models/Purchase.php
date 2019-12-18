@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\OptionPricing;
 class Purchase extends Model
 {
     protected $fillable = [
@@ -35,14 +35,25 @@ class Purchase extends Model
         'transaction_type'
     ];
 
-    public static function rules() {
+    public static function rules($id = null, array $data = []) {
+        $deal = Deal::find($data['deal_id']);
+        \Validator::extend('dealsTotalLimit', function ($attribute, $value, $parameters) use ($deal) {
+            if (!$deal) {
+                return null; // no limit so anything is accepted
+            }
+            if (intval($deal->deal_total_limit) === 0) {
+                return true; // no limit so anything is accepted
+            }
+            $totalPurchases = intval($value) + Purchase::where('deal_id','=',$deal->id)->sum('quantity');
+            return $totalPurchases <= $deal->deal_total_limit;
+        });
         return [
-            'user_card_id' => 'required',
-            'deal_id' => 'required',
-            'branch_id' => 'required',
-            'option_pricing_id' => 'required',
-            'quantity' => 'required|numeric',
             'user_id' => 'required',
+            'deal_id' => 'required|integer|exists:option_pricings,id',
+            'quantity' => 'required|integer|min:1|dealsTotalLimit',
+            'option_pricing_id' => 'required|integer|exists:option_pricings,id',
+            'user_card_id' => 'required',
+            'branch_id' => 'required',
             'beneficiary_name' => 'required',
             'beneficiary_email' => 'required',
             'beneficiary_note' => 'required',
@@ -57,7 +68,7 @@ class Purchase extends Model
 
     public function optionPricings()
     {
-        return $this->hasOne(optionPricing::class);
+        return $this->hasOne(OptionPricing::class);
     }
 
     public function User()

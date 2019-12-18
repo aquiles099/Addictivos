@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Purchase;
+use App\Models\Deal;
 use App\Models\OptionPricing;
 use Illuminate\Http\Request;
 use App\Helpers\HStatusHttp;
@@ -46,8 +47,8 @@ class PurchaseController extends Controller
                 ]);            
             }   
         }
-
-        if( $validator_result = $this->validateData( $request, Purchase::rules(), trans('validation') )) {
+        
+        if( $validator_result = $this->validateData( $request, Purchase::rules(null,["deal_id"=>$request->deal_id]), trans('validation') )) {
             return $validator_result;  
         }
 
@@ -84,7 +85,7 @@ class PurchaseController extends Controller
 
         if(!$purchase_id){
             $purchase = $this->create($purchase_data);
-            Mail::to($purchase->user)->send(new PurchaseEmail($purchase));
+            //Mail::to($purchase->user)->send(new PurchaseEmail($purchase));
 
         } else {
             $purchase = $this->update($purchase, $purchase);
