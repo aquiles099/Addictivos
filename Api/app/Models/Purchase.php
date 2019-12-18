@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\OptionPricing;
+
 class Purchase extends Model
 {
     protected $fillable = [
@@ -47,10 +47,21 @@ class Purchase extends Model
             $totalPurchases = intval($value) + Purchase::where('deal_id','=',$deal->id)->sum('quantity');
             return $totalPurchases <= $deal->deal_total_limit;
         });
+        $optionPricing= OptionPricing::find($data['option_pricing_id']);
+        \Validator::extend('optionPricingTotalLimit', function ($attribute, $value, $parameters) use ($optionPricing) {
+            if (!$optionPricing) {
+                return null; // no limit so anything is accepted
+            }
+            if (intval($optionPricing->limit) === 0) {
+                return true; // no limit so anything is accepted
+            }
+            $totalPurchases = intval($value) + Purchase::where('deal_id','=',$optionPricing->deal->id)->where('option_pricing_id','=',$optionPricing->id)->sum('quantity');
+            return $totalPurchases <= $optionPricing->limit;
+        });        
         return [
             'user_id' => 'required',
-            'deal_id' => 'required|integer|exists:option_pricings,id',
-            'quantity' => 'required|integer|min:1|dealsTotalLimit',
+            'deal_id' => 'required|integer|exists:deals,id|exists:option_pricings,deal_id',
+            'quantity' => 'required|integer|min:1|dealsTotalLimit|optionPricingTotalLimit',
             'option_pricing_id' => 'required|integer|exists:option_pricings,id',
             'user_card_id' => 'required',
             'branch_id' => 'required',

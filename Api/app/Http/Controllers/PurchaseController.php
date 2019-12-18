@@ -48,12 +48,28 @@ class PurchaseController extends Controller
             }   
         }
         
-        if( $validator_result = $this->validateData( $request, Purchase::rules(null,["deal_id"=>$request->deal_id]), trans('validation') )) {
+        if( $validator_result = $this->validateData( $request, Purchase::rules(null,[
+            "deal_id"=>$request->deal_id,
+            "option_pricing_id"=>$request->option_pricing_id
+        ]), trans('validation') )) {
             return $validator_result;  
         }
+        $optionPricing=OptionPricing::find($request->option_pricing_id);
+        $unit_price = OptionPricing::getUnitPriceFromOptionPrice($optionPricing->id);
+        $subtotal = $unit_price * $request->quantity;        
 
-        $unit_price = OptionPricing::getUnitPriceFromOptionPrice($request->option_pricing_id);
-        $subtotal = $unit_price * $request->quantity;
+        if ($optionPricing->deal->id != $request->deal_id) {
+            return response()->json([
+                "message"=> "error",
+                "data"=> [
+                    "errors"=>[
+                        "option_pricing_id" =>[
+                            "The pricing option does not belong to the deal"
+                        ]
+                    ]
+                ]
+            ],500);
+        }
         $purchase_data = [
             'user_id' => $request->user_id,
             'deal_id' => $request->deal_id,

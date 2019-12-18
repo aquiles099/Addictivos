@@ -55,4 +55,8 @@ class OptionPricing extends Model
         $unit_price = $option_price['original'] * $option_price->discount / 100;
         return $unit_price;
     }
+    public function deal()
+    {
+        return $this->BelongsTo(Deal::class);
+    }
 }
