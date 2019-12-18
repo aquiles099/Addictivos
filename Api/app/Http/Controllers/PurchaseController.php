@@ -179,4 +179,16 @@ class PurchaseController extends Controller
             ]
         ]);
     }
+    public function byStatusAndDates(Request $request){
+        $purchases = Purchase::where('status',$request->status)
+            ->where('created_at','>',$request->startDate)
+            ->where('created_at','<',$request->endDate)            
+            ->get();
+        return response()->json([
+            'code' => HStatusHttp::OK,
+            'data' => [
+                'purchases' => $purchases
+            ]
+        ]);
+    }
 }

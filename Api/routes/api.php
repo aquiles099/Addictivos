@@ -172,6 +172,7 @@ Route::group([
 
 ], function ($router) {
     Route::get('/purchases', 'PurchaseController@index');
+    Route::post('/purchases/bystatusanddates', 'PurchaseController@byStatusAndDates');
     Route::post('create','PurchaseController@prepareCreateOrUpdateData');
     Route::patch('/{id}', "PurchaseController@prepareCreateOrUpdateData");
     Route::get('/{id}', 'PurchaseController@get');
