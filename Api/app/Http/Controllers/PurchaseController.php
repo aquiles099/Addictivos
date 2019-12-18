@@ -39,6 +39,11 @@ class PurchaseController extends Controller
      */
     public function prepareCreateOrUpdateData(Request $request, $purchase_id = null)
     {
+    // return response()->json(
+    //         ["data"=>count(Purchase::
+    //         where('deal_id','=',1)->
+    //         groupBy('user_id')
+    // ->get())]);
         if($purchase_id) {
             if ( !$purchase=Purchase::find($purchase_id) ) {
                 return response()->json([
@@ -50,7 +55,8 @@ class PurchaseController extends Controller
         
         if( $validator_result = $this->validateData( $request, Purchase::rules(null,[
             "deal_id"=>$request->deal_id,
-            "option_pricing_id"=>$request->option_pricing_id
+            "option_pricing_id"=>$request->option_pricing_id,
+            "user_id"=>$request->user_id
         ]), trans('validation') )) {
             return $validator_result;  
         }
