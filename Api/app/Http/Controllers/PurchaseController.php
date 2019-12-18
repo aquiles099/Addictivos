@@ -39,11 +39,7 @@ class PurchaseController extends Controller
      */
     public function prepareCreateOrUpdateData(Request $request, $purchase_id = null)
     {
-    // return response()->json(
-    //         ["data"=>count(Purchase::
-    //         where('deal_id','=',1)->
-    //         groupBy('user_id')
-    // ->get())]);
+    // return response()->json(["data"=>count(Purchase::where('deal_id',1)->where('option_pricing_id','=',1)->groupBy('user_id')->get())]);
         if($purchase_id) {
             if ( !$purchase=Purchase::find($purchase_id) ) {
                 return response()->json([

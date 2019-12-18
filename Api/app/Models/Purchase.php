@@ -47,7 +47,7 @@ class Purchase extends Model
             $totalPurchases = intval($value) + Purchase::where('deal_id','=',$deal->id)->sum('quantity');
             return $totalPurchases <= $deal->deal_total_limit;
         });
-        \Validator::extend('userPurchaseLimit', function ($attribute, $value, $parameters) use ($deal,$data) {
+        \Validator::extend('userPurchaseDealLimit', function ($attribute, $value, $parameters) use ($deal,$data) {
             if (!$deal) {
                 return null; // no limit so anything is accepted
             }
@@ -56,7 +56,7 @@ class Purchase extends Model
             }
             if ($data['user_id']) {
                 $totalPurchases = count(Purchase::where('deal_id','=',$deal->id)->groupBy('user_id')->get());
-                return $totalPurchases <= $deal->user_purchase_limit;
+                return $totalPurchases+1 <= $deal->user_purchase_limit;
             }
         });
         $optionPricing= OptionPricing::find($data['option_pricing_id']);
@@ -70,11 +70,22 @@ class Purchase extends Model
             $totalPurchases = intval($value) + Purchase::where('deal_id','=',$optionPricing->deal->id)->where('option_pricing_id','=',$optionPricing->id)->sum('quantity');
             return $totalPurchases <= $optionPricing->limit;
         });
-        
+        \Validator::extend('userPurchaseOptionLimit', function ($attribute, $value, $parameters) use ($optionPricing,$data) {
+            if (!$optionPricing) {
+                return null; // no limit so anything is accepted
+            }
+            if (intval($optionPricing->user_purchase_limit) === 0 || Purchase::where('user_id',$data['user_id'])->where('deal_id',$data['deal_id'])->where('option_pricing_id','=',$optionPricing->id)->first()) {
+                return true; // no limit so anything is accepted
+            }
+            if ($data['user_id']) {
+                $totalPurchases = count(Purchase::where('deal_id',$data['deal_id'])->where('option_pricing_id','=',$optionPricing->id)->groupBy('user_id')->get());
+                return $totalPurchases+1 <= $optionPricing->user_purchase_limit;
+            }
+        });
         return [
             'user_id' => 'required',
             'deal_id' => 'required|integer|exists:deals,id|exists:option_pricings,deal_id',
-            'quantity' => 'required|integer|min:1|dealsTotalLimit|optionPricingTotalLimit|userPurchaseLimit',
+            'quantity' => 'required|integer|min:1|dealsTotalLimit|optionPricingTotalLimit|userPurchaseDealLimit|userPurchaseOptionLimit',
             'option_pricing_id' => 'required|integer|exists:option_pricings,id',
             'user_card_id' => 'required',
             'branch_id' => 'required',
