@@ -217,5 +217,23 @@ class UserController extends Controller
         
         return response()->json($data);
     }
+    public function purchasesApproved($user_id){
+      if($user_id) {
+          if ( !$user=User::find($user_id) ) {
+              return response()->json([
+                  'code' => HStatusHttp::NOT_FOUND,
+                  'message' => 'Usuario no encontrado'
+              ]);            
+          }   
+      }
+      $user['purchases'] = User::purchasesApproved($user);
+      $data = [
+          'code' => HStatusHttp::OK,
+          'data' => [
+              'user' => $user
+          ]
+      ];      
+      return response()->json($data);
+    }
 
 }

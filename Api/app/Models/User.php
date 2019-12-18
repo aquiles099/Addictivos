@@ -129,4 +129,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Purchase::class);
     }
+    public static function purchasesApproved($user)
+    {
+        $purchases = Purchase::query()
+            ->join('users', 'users.id', '=', 'purchases.user_id')
+            ->where('purchases.status', '=', 1)
+            ->get();        
+        return $purchases;
+    }
 }
