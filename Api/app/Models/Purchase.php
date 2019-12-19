@@ -82,9 +82,29 @@ class Purchase extends Model
                 return $totalPurchases+1 <= $optionPricing->user_purchase_limit;
             }
         });
+        \Validator::extend('isPublic', function ($attribute, $value, $parameters) use ($deal) {
+            // $now = date('Y-m-d');
+            if (!$deal) {
+                return null; // no limit so anything is accepted
+            }
+            if ($deal->is_public == 1 ) {
+                return true; // no limit so anything is accepted
+            }
+            return false;
+        });
+        \Validator::extend('isValid', function ($attribute, $value, $parameters) use ($deal) {
+            $now = date('Y-m-d');
+            if (!$deal) {
+                return null; // no limit so anything is accepted
+            }
+            if ($deal->closing_date>=$now && $deal->available_until<=$now) {
+                return true; // no limit so anything is accepted
+            }
+            return false;
+        });
         return [
             'user_id' => 'required',
-            'deal_id' => 'required|integer|exists:deals,id|exists:option_pricings,deal_id',
+            'deal_id' => 'required|integer|exists:deals,id|exists:option_pricings,deal_id|isPublic|isValid',
             'quantity' => 'required|integer|min:1|dealsTotalLimit|optionPricingTotalLimit|userPurchaseDealLimit|userPurchaseOptionLimit',
             'option_pricing_id' => 'required|integer|exists:option_pricings,id',
             'user_card_id' => 'required',
@@ -97,7 +117,8 @@ class Purchase extends Model
             'payment_platform_id' => 'required',
             'version' => 'required',
             'ip' => 'required',
-            'navigator' => 'required'
+            'navigator' => 'required',
+            'is_public' => 'isPublic',
         ];
     }
 
