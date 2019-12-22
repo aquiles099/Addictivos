@@ -15,16 +15,19 @@
             </mat-form-field>
             
             <div class="mat-elevation-z8">
-              <table mat-table [dataSource]="dataSource" matSort>                   
+              <table mat-table [dataSource]="dataSource" matSort>
+
                 <ng-container matColumnDef="img">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> Imagen </th>
-                  <td mat-cell *matCellDef="let row"> <img class="deal-img" src="assets/images/dealimg.png" /></td>
+                  <td mat-cell *matCellDef="let row"> 
+                    <img class="deal-img" [attr.src]="row.images[0].avatar_file_name?sanitize(row.images[0].avatar_file_name):'assets/images/dealimg.png'" /> 
+                  </td>
                 </ng-container>
       
                 <!-- Progress Column -->
                 <ng-container matColumnDef="short_title">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción Corta </th>
-                  <td mat-cell *matCellDef="let row" class="description"> {{row.short_title}} </td>
+                  <td mat-cell *matCellDef="let row" class="description px-5"> {{row.short_title}} </td>
                 </ng-container>
             
                 <!-- Name Column -->
@@ -56,7 +59,7 @@
                           <span>Editar</span>
                         </button>
               
-                        <button mat-menu-item >
+                        <button mat-menu-item (click)="delete(row.id)">
                           <mat-icon>delete</mat-icon>
                           <span>Borrar</span>
                         </button>

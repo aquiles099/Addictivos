@@ -18,24 +18,54 @@
         <nb-step label="Descripción">
             <div class="row">
               <div class="col-lg-12">
-                <label class="label" for="input-email">Titulo Corto:</label>
-                <input type="text" nbInput fullWidth formControlName="short_title" placeholder="{{ deal.short_title }}" name="short_title">
-                <label class="label" for="input-email">Titulo Largo:</label>
-                <input type="text" nbInput fullWidth placeholder="{{ deal.long_title }}" name="long_title" formControlName="long_title">
-                <label class="label" for="input-email">Titulo de Regalo:</label>
-                <input type="text" nbInput fullWidth placeholder="{{ deal.gift_title }}" name="gift_title" formControlName="gift_title">
-                <label class="label" for="input-email">Descripción Corta:</label>
-                <input type="text" nbInput fullWidth placeholder="{{ deal.short_description }}" name="short_description"  formControlName="short_description">
-                <label class="label" for="input-email">Descripcion Larga:</label>
-                <div *ngIf="ckEditorReadOnly">                  
-                  <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:true }"  name="long_description" formControlName="long_description" ></ckeditor>
-                  <label class="label" for="input-email">Restricciones:</label>
-                  <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:true }" name="restrictions" formControlName="restrictions"    ></ckeditor>
+                <!-- form-group -->
+                <div class="form-group">
+                  <label class="label" for="input-email">Título Corto:</label>
+                  <input type="text" nbInput fullWidth formControlName="short_title" placeholder="{{ deal.short_title }}" name="short_title">
+                  <div *ngIf="f.short_title.errors && submitted" class="alert alert-danger" role="alert" style="margin:5px;">                  
+                    <div *ngIf="f.short_title.errors.required">El título corto es requerido</div>
+                  </div>
                 </div>
-                <div *ngIf="!ckEditorReadOnly">                  
-                  <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:false }"  name="long_description" formControlName="long_description" ></ckeditor>
-                  <label class="label" for="input-email">Restricciones:</label>
-                  <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:false }" name="restrictions" formControlName="restrictions"    ></ckeditor>
+                <!-- form-group -->
+                <div class="form-group">
+                  <label class="label" for="input-email">Titulo Largo:</label>
+                  <input type="text" nbInput fullWidth placeholder="{{ deal.long_title }}" name="long_title" formControlName="long_title">
+                  <div *ngIf="f.long_title.errors && submitted" class="alert alert-danger" role="alert" style="margin:5px;">
+                    <div *ngIf="f.long_title.errors.required">El título largo es requerido</div>
+                  </div>
+                </div>
+                <!-- form-group -->
+                <div class="form-group">
+                  <label class="label" for="input-email">Titulo de Regalo:</label>
+                  <input type="text" nbInput fullWidth placeholder="{{ deal.gift_title }}" name="gift_title" formControlName="gift_title">
+                  <div *ngIf="f.gift_title.errors && submitted" class="alert alert-danger" role="alert" style="margin:5px;">
+                    <div *ngIf="f.gift_title.errors.required">El título largo es requerido</div>
+                  </div>
+                </div>
+                <!-- form-group -->
+                <div class="form-group">
+                  <label class="label" for="input-email">Descripción Corta:</label>
+                  <input type="text" nbInput fullWidth placeholder="{{ deal.short_description }}" name="short_description"  formControlName="short_description">
+                  <div *ngIf="f.short_description.errors && submitted" class="alert alert-danger" role="alert" style="margin:5px;">
+                    <div *ngIf="f.short_description.errors.required">La descripción corta es requerida</div>
+                  </div>
+                </div>
+                <!-- form-group -->
+                <div class="form-group">
+                  <label class="label" for="input-email">Descripcion Larga:</label>
+                  <div *ngIf="ckEditorReadOnly">                  
+                    <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:true }"  name="long_description" formControlName="long_description" ></ckeditor>
+                    <label class="label" for="input-email">Restricciones:</label>
+                    <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:true }" name="restrictions" formControlName="restrictions"    ></ckeditor>
+                  </div>
+                  <div *ngIf="!ckEditorReadOnly">                  
+                    <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:false }"  name="long_description" formControlName="long_description" ></ckeditor>
+                    <label class="label" for="input-email">Restricciones:</label>
+                    <ckeditor [config]="{ extraPlugins: 'divarea', height: '200',readOnly:false }" name="restrictions" formControlName="restrictions"    ></ckeditor>
+                  </div>
+                  <div *ngIf="f.restrictions.errors && submitted" class="alert alert-danger" role="alert" style="margin:5px;">
+                    <div *ngIf="f.restrictions.errors.required">Las restricciones son requeridas</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -130,10 +160,10 @@
                           </nb-select>
                     </div>
 
-                    <div class="form-group" *ngIf="dealTypeSelected.id">
+                    <div class="form-group" >
                         <label class="label" for="input-name">Tipo:</label>
-                        <nb-select placeholder="Seleccione el tipo" formControlName="deal_type_id">
-                             <nb-option [(value)]='type.id'  ngFor='let type of types' >{{type.name}} </nb-option>
+                        <nb-select placeholder="Seleccione el tipo" fullWidth formControlName="deal_type_id">
+                             <nb-option value='{{type.id}}'  *ngFor='let type of types' >{{type.name}} </nb-option>
                         </nb-select>
                     </div>
 
@@ -156,7 +186,7 @@
               </div>
               <nb-alert outline="danger" role="alert" id="file-errors" style="display:none;"></nb-alert>          
               <div class="text-center p-2">
-                  <button nbButton status="primary" [disabled]="!editForm.invalid" id="save-btn">Guardar</button>
+                  <button nbButton status="primary"  id="save-btn">Guardar</button>
               </div>
         </nb-step>
      

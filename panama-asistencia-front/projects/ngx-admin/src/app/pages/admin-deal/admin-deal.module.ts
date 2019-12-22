@@ -62,7 +62,7 @@ import { EditDealComponent } from './deals/edit-deal/edit-deal.component';
     NbRadioModule,
     NbDatepickerModule,
     NbIconModule,
-    NbAlertModule.
+    NbAlertModule,
     CKEditorModule,
     MatFormFieldModule,
     MatTableModule,

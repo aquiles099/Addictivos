@@ -27,12 +27,13 @@ export class EditDealComponent implements OnInit {
 
   formData = new FormData();
   editForm: FormGroup;
+  submitted:boolean=false;
   // upload
   fileData: File = null;
-  comerces:any[] = null;
-  categorys:any[] = null;
-  companys:any[] = null;
-  types:any[]=null;
+  comerces:any[] = [];
+  categorys:any[] = [];
+  companys:any[] = [];
+  types:any[]=[];
   config: ToasterConfig;
 
   index = 1;
@@ -67,50 +68,53 @@ export class EditDealComponent implements OnInit {
 
   ngOnInit() {
 
-    this.dealService.getDeal().subscribe(data => {this.deal = data; console.log("this.deal:",this.deal)});
-    this.effectiveDateSelected = new Date(this.deal['effective_date']);    
-    this.closingDateSelected = new Date(this.deal['closing_date']);
-    this.availableUntilSelected = new Date(this.deal['available_until']);    
-    this.editForm = this.getFormBuilder();
-
-    this.dealService.getTypes().toPromise().then(
-      response => {
-        if(response.code==200){
-          this.types=response.data.types;
-          this.editForm.controls['deal_type_id'].setValue(this.deal['deal_type_id']);
+    this.dealService.getDeal().subscribe(data => {
+      this.deal = data;    
+      this.effectiveDateSelected = new Date(this.deal['effective_date']);    
+      this.closingDateSelected = new Date(this.deal['closing_date']);
+      this.availableUntilSelected = new Date(this.deal['available_until']);    
+      this.editForm = this.getFormBuilder();
+      this.dealService.getTypes().toPromise().then(
+        response => {
+          if(response.code==200){
+            this.types=response.data.types;
+            this.editForm.controls['deal_type_id'].setValue(this.deal['deal_type_id']);
+          }
         }
-      }
-    ).catch(error => {
-      console.log("error:",error);
-    });
-    this.comerce_service.getComerce().toPromise().then(
+      ).catch(error => {
+        console.log("error:",error);
+      });
+      this.comerce_service.getComerce().toPromise().then(
+        response => {
+          if(response.code==200){
+            this.comerces = response.data.commerce.original;
+            this.editForm.controls['commerce_id'].setValue(this.deal['commerce_id']);
+          }
+        }).catch(error => {
+          console.log("error:",error);
+      });
+      this.category_service.getCategories().toPromise().then(
       response => {
         if(response.code==200){
-          this.comerces = response.data.commerce.original;
-          this.editForm.controls['commerce_id'].setValue(this.deal['commerce_id']);
+          this.categorys = response.data.categories; 
+          this.editForm.controls['category_id'].setValue(this.deal['category_id']);
         }
       }).catch(error => {
         console.log("error:",error);
+      });
+      this.company_service.getCompany().toPromise().then(response => {  
+        if(response.code==200){
+          this.companys = response.data.company.original;
+          this.editForm.controls['company_id'].setValue(this.deal['company_id']);
+        }                    
+      }).catch(error => {
+        console.log("error:",error);
+      }); 
     });
-    this.category_service.getCategories().toPromise().then(
-    response => {
-      if(response.code==200){
-        this.categorys = response.data.categories; 
-        this.editForm.controls['category_id'].setValue(this.deal['category_id']);
-      }
-    }).catch(error => {
-      console.log("error:",error);
-    });
-    this.company_service.getCompany().toPromise().then(response => {  
-      if(response.code==200){
-        this.companys = response.data.company.original;
-        this.editForm.controls['company_id'].setValue(this.deal['company_id']);
-      }                    
-    }).catch(error => {
-      console.log("error:",error);
-    }); 
   }
-
+  get f() {
+    return this.editForm.controls;
+  }
   getFormBuilder() {
     return this.fb.group({
       short_title: [{ value: this.deal['short_title'], disabled: true }, Validators.required],
@@ -140,9 +144,9 @@ export class EditDealComponent implements OnInit {
   getFormData() {
     this.formData.append("short_title", this.editForm.controls.short_title.value);
     this.formData.append("long_title", this.editForm.controls.long_title.value);
-    this.formData.append("effective_date", this.convertDate(this.editForm.controls.effective_date.value));
-    this.formData.append("closing_date", this.convertDate(this.editForm.controls.closing_date.value));
-    this.formData.append("available_until",this.convertDate(this.editForm.controls.available_until.value));
+    this.formData.append("effective_date", moment(this.editForm.controls.effective_date.value,"MM-DD-YYYY HH:mm").format("MM-DD-YYYY HH:mm"));
+    this.formData.append("closing_date", moment(this.editForm.controls.closing_date.value,"MM-DD-YYYY HH:mm").format("MM-DD-YYYY HH:mm"));
+    this.formData.append("available_until",moment(this.editForm.controls.available_until.value,"MM-DD-YYYY HH:mm").format("MM-DD-YYYY HH:mm")) ;
     this.formData.append("deal_total_limit",this.editForm.controls.deal_total_limit.value);
     this.formData.append("user_purchase_limit",this.editForm.controls.user_purchase_limit.value);
     this.formData.append("short_description", this.editForm.controls.short_description.value);
@@ -156,7 +160,7 @@ export class EditDealComponent implements OnInit {
     this.formData.append("category_id", this.editForm.controls.category_id.value);
     this.formData.append("deal_type_id", this.editForm.controls.deal_type_id.value);
     this.formData.append("company_id",this.editForm.controls.company_id.value);
-    this.formData.append("main_image",this.fileData);
+    if(this.fileData){this.formData.append("main_image",this.fileData);}
     return this.formData;
   }
   public editDeal(){
@@ -183,13 +187,17 @@ export class EditDealComponent implements OnInit {
     this.isValid = false;
   }
   public save(editRequest: any) {
-  	if(this.validateDates()){
+    if(this.validateDates()){
+      this.submitted=true;
     	this.dealService.updateDeal(this.deal.id, this.getFormData()).toPromise().then(output => {
-	        this.showToast("success", "Proceso Exitoso", "Oferta Actualizada con exitos");
-	        setTimeout(() => {
-	          this.router.navigate(['/pages/admin-deal/table-deals']);
-	        }, 300);
+          console.log("output:",output);
+          this.submitted=false;
+           this.showToast("success", "Proceso Exitoso", "Oferta Actualizada con exitos");
+	         setTimeout(() => {
+	           this.router.navigate(['/pages/admin-deal/table-deals']);
+	         }, 300);
 	      }).catch((error) => {
+          this.submitted=false;
 	        this.makeToast();
 	        console.log(error);
 	      });
@@ -242,7 +250,7 @@ export class EditDealComponent implements OnInit {
       config);
   }
   validateDates(){
-    if(moment(this.editForm.controls.available_until.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm")>=moment(this.editForm.controls.closing_date.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm") && moment(this.editForm.controls.closing_date.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm")>moment(this.editForm.controls.effective_date.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm")){
+    if(moment(this.editForm.controls.closing_date.value,"MM-DD-YYYY HH:mm").isAfter(moment(this.editForm.controls.effective_date.value,"MM-DD-YYYY HH:mm")) && moment(this.editForm.controls.available_until.value,"MM-DD-YYYY HH:mm").isAfter(moment(this.editForm.controls.closing_date.value,"MM-DD-YYYY HH:mm"))){
       return true;
     }
     return false;
@@ -251,7 +259,7 @@ export class EditDealComponent implements OnInit {
   convertDate(date){
     var splittedHours = date.toString().split(" ", 7); 
     var splittedDate = date.toLocaleString().split("/", 7); 
-    return splittedHours[3]+"-"+splittedDate[1]+"-"+splittedDate[0]+" "+splittedHours[4];
+    return splittedDate[1]+"-"+splittedHours[3]+"-"+splittedDate[0]+" "+splittedHours[4];
   }
   fileProgress(fileInput: any) {
     this.fileData = <File>fileInput.target.files[0];
@@ -287,9 +295,9 @@ export class EditDealComponent implements OnInit {
             }
             document.getElementById("file-errors").style.display = "block";
             document.getElementById("file-errors").innerHTML = errorMsj;
-            document.getElementById("save-btn").disabled = true;
+            // document.getElementById("save-btn").disabled= true;
           }else{
-            document.getElementById("save-btn").disabled = false;
+            // document.getElementById("save-btn").disabled = false;
             document.getElementById("file-errors").style.display = "none";
           }
         };

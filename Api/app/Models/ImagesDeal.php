@@ -38,12 +38,14 @@ class ImagesDeal extends Model
     //     return $all_images_deals;
     // }
     
-    public static function getSingleImageDeals( $deal ){
+    public static function getSingleImageDeals( $deal , $dispatch=true){
         $deal->images = ImagesDeal::query()
         ->where('images_deals.deal_id', '=', $deal->id)
         ->select('id', 'avatar_file_name')
         ->get();
-        $deal->images = GetImages::dispatchNow($deal->images); 
+        if($dispatch){
+            $deal->images = GetImages::dispatchNow($deal->images); 
+        }
         
         return $deal;
     }
@@ -51,7 +53,7 @@ class ImagesDeal extends Model
     public static function getImageDeals( $deals ){
 
         foreach( $deals as $deal ) {
-            $deal = ImagesDeal::getSingleImageDeals($deal);
+            $deal = ImagesDeal::getSingleImageDeals($deal, false);
         }
         
         return $deals;

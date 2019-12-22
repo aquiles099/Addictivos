@@ -164,6 +164,7 @@ export class FormDealsComponent {
   saveDeal() {
     if(this.validateDates()){
       this.dealService.saveDeal(this.getFormData()).toPromise().then(output => {
+        console.log("output:",output);
         this.showToast("success", "Proceso Exitoso", "Oferta Agregada con exitos");
         setTimeout(() => {
           this.router.navigate(['/pages/admin-deal/table-deals']);
@@ -199,7 +200,7 @@ export class FormDealsComponent {
       config);
   }
   validateDates(){
-    if(moment(this.dealForm.controls.available_until.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm")>=moment(this.dealForm.controls.closing_date.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm") && moment(this.dealForm.controls.closing_date.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm")>moment(this.dealForm.controls.effective_date.value,"DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm")){
+    if(moment(this.dealForm.controls.closing_date.value,"MM-DD-YYYY HH:mm").isAfter(moment(this.dealForm.controls.effective_date.value,"MM-DD-YYYY HH:mm")) && moment(this.dealForm.controls.available_until.value,"MM-DD-YYYY HH:mm").isAfter(moment(this.dealForm.controls.closing_date.value,"MM-DD-YYYY HH:mm"))){
       return true;
     }
     return false;
@@ -244,9 +245,9 @@ export class FormDealsComponent {
             }
             document.getElementById("file-errors").style.display = "block";
             document.getElementById("file-errors").innerHTML = errorMsj;
-            document.getElementById("save-btn").disabled = true;
+            console.log(document.getElementById("save-btn"));//.disabled = true;
           }else{
-            document.getElementById("save-btn").disabled = false;
+            // document.getElementById("save-btn").disabled = false;
             document.getElementById("file-errors").style.display = "none";
           }
         };

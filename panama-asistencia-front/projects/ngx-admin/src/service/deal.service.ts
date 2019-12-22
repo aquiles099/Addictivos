@@ -41,6 +41,9 @@ export class DealService extends BaseService {
         return this.dealEdit.asObservable();
     }
     public updateDeal(id: number, deal: any):  Observable<any>  {
-      return this.http.put(this.urlC + id, deal);
+      return this.http.post(this.urlC + id, deal);
+    }
+    public delete(id: number):  Observable<any>  {
+      return this.http.delete(this.urlC + id);
     }
 }

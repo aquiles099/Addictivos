@@ -5,7 +5,14 @@ import { MatSort } from '@angular/material/sort';
 import { DealModelResponse } from 'projects/ngx-admin/src/model/deal/response/dealModelResponse.model';
 import { DealService } from 'projects/ngx-admin/src/service/deal.service';
 import { Router } from '@angular/router';
-
+import {
+  NbComponentStatus,
+  NbGlobalLogicalPosition,
+  NbGlobalPhysicalPosition,
+  NbGlobalPosition,
+  NbToastrService,
+} from '@nebular/theme';
+import {DomSanitizer} from '@angular/platform-browser';
 @Component({
   selector: 'app-table-deals',
   templateUrl: './table-deals.component.html',
@@ -21,8 +28,16 @@ dataSource: MatTableDataSource<DealModelResponse>;
 
 public dealsList: Array<DealModelResponse>;
 
-constructor(private dealService: DealService,
-               public router: Router) {
+  index = 1;
+  destroyByClick = true;
+  duration = 3000;
+  hasIcon = true;
+  position: NbGlobalPosition = NbGlobalPhysicalPosition.TOP_RIGHT;
+  preventDuplicates = false;
+  status: NbComponentStatus = 'primary';
+
+
+constructor(private sanitizer:DomSanitizer,private dealService: DealService,private toastrService: NbToastrService,private router: Router) {
   this.getDeals();
 }
 
@@ -39,9 +54,10 @@ applyFilter(filterValue: string) {
 public getDeals(){
   this.dealsList =[];
   this.dealService.getDeals().toPromise().then(data =>{
-      this.dealsList = data['data']['deals'];    
+      this.dealsList = data['data']['deals'];
       if(this.dealsList.length > 0){
         this.dataSource = new MatTableDataSource(this.dealsList);
+      console.log("dataSource:",this.dataSource);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.paginator._intl.itemsPerPageLabel="Ver por página";
@@ -63,5 +79,34 @@ public edit(id: any) {
     }
   }
   }
+  public delete(id: any){
+    this.dealService.delete(id).toPromise().then(data =>{
+      console.log("data:",data);
+      this.showToast("success", "Proceso Exitoso", "Oferta eliminada con exito"); 
+      this.getDeals();  
+    }).catch((error) => {
+      console.log("error");
+      console.log(error);
+    });
+  }
+  private showToast(type: NbComponentStatus, title: string, body: string) {
+    const config = {
+      status: type,
+      destroyByClick: this.destroyByClick,
+      duration: this.duration,
+      hasIcon: this.hasIcon,
+      position: this.position,
+      preventDuplicates: this.preventDuplicates,
+    };
+    const titleContent = title ? `. ${title}` : '';
 
+    this.index += 1;
+    this.toastrService.show(
+      body,
+      `${titleContent}`,
+      config);
+  }
+  sanitize(url:string){
+      return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
 }

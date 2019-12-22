@@ -40,6 +40,7 @@ class DealController extends Controller
      */
     public function prepareCreateOrUpdateData(Request $request, $deal_id = null)
     {
+        // return response()->json(["request"=>$request->all()]);
         if($deal_id) {
             if ( !$deal=Deal::find($deal_id) ) {
                 return response()->json([
@@ -81,6 +82,7 @@ class DealController extends Controller
             'category_id' => $request->category_id
         ];
         $images = [];
+        // return response()->json(["request"=>$request->main_image]);
         if($request->main_image){
             array_push($images, $request->main_image);
         }
@@ -124,7 +126,7 @@ class DealController extends Controller
             $filename = uniqid().'-'.time().'.'. $image->getClientOriginalExtension();            
             Image::make($image)->save(public_path($full_path . $filename));
             $image_deal=ImagesDeal::create([
-                'avatar_file_name' => public_path($full_path . $filename),
+                'avatar_file_name' => asset($full_path.$filename),
                 'deal_id' => $deal->id
             ]);
             array_push($images_deal,$image_deal);
@@ -173,35 +175,36 @@ class DealController extends Controller
     {
         
         $deal->fill($deal_data)->update();
-        $full_path = "images/".HPath::AVATAR_DEAL . '/'. $deal->id.'/';
-        $imagesDeal=ImagesDeal::where("deal_id",$deal->id)->get();
-        //se eliminan las que ya estaban registradas con el $deal->id
-        foreach ($imagesDeal as $key => $imageDeal) {
-            File::Delete($imageDeal->avatar_file_name);// se elimina del disco
-            if($deal->images_deals_id==$imageDeal->id){
-                $deal->images_deals_id=null;
+        if(count($images)>0){
+            $full_path = "images/".HPath::AVATAR_DEAL . '/'. $deal->id.'/';
+            $imagesDeal=ImagesDeal::where("deal_id",$deal->id)->get();
+            //se eliminan las que ya estaban registradas con el $deal->id
+            foreach ($imagesDeal as $key => $imageDeal) {
+                File::Delete($imageDeal->avatar_file_name);// se elimina del disco
+                if($deal->images_deals_id==$imageDeal->id){
+                    $deal->images_deals_id=null;
+                    $deal->update();
+                }
+                $imageDeal->delete();
+            }
+            if(!is_dir($full_path)) {
+                mkdir($full_path, 0755, true);
+            }
+            $images_deal=[];
+            foreach($images as $key => $image) {
+                $filename = uniqid().'-'.time().'.'. $image->getClientOriginalExtension();            
+                Image::make($image)->save(public_path($full_path . $filename));
+                $image_deal=ImagesDeal::create([
+                    'avatar_file_name' => asset($full_path.$filename),
+                    'deal_id' => $deal->id
+                ]);
+                array_push($images_deal,$image_deal);
+            }
+            if(!$deal->images_deals_id&&count($images_deal)>0) {
+                $deal->images_deals_id = $images_deal[0]->id;
                 $deal->update();
             }
-            $imageDeal->delete();
         }
-        if(!is_dir($full_path)) {
-            mkdir($full_path, 0755, true);
-        }
-        $images_deal=[];
-        foreach($images as $key => $image) {
-            $filename = uniqid().'-'.time().'.'. $image->getClientOriginalExtension();            
-            Image::make($image)->save(public_path($full_path . $filename));
-            $image_deal=ImagesDeal::create([
-                'avatar_file_name' => public_path($full_path . $filename),
-                'deal_id' => $deal->id
-            ]);
-            array_push($images_deal,$image_deal);
-        }
-        if(!$deal->images_deals_id&&count($images_deal)>0) {
-            $deal->images_deals_id = $images_deal[0]->id;
-            $deal->update();
-        }
-        
         return $deal;
     }
 
