@@ -62,7 +62,7 @@
     "ngx-perfect-scrollbar": "7.0.0",
     "ngx-spinner": "6.1.2",
     "ngx-swiper-wrapper": "7.0.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "normalize.css": "6.0.0",
     "pace-js": "^1.0.2",
     "pump": "^3.0.0",
